@@ -7,22 +7,26 @@ export default function Layout({ children }: { children: any }) {
   const menuItems: ISidebarItem[] = [
     {
       href: "/",
-      title: "Homepage",
+      title: "Inicio",
     },
     {
       href: "/clientes",
-      title: "Clientes",
+      title: "Proyectos",
     },
     {
       href: "/usuarios",
-      title: "Usuarios",
+      title: "Tickets",
+    },
+    {
+      href: "/accordiontest",
+      title: "Accordion",
     }
   ]
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <header className="bg-black sticky top-0 h-14 flex justify-center items-center font-semibold uppercase text-white">
-        Ejemplo pantalla
+        PSA - Soporte y Administración de Proyectos
       </header>
       <div className="flex flex-col md:flex-row flex-1">
         <aside className="bg-grey-100 w-full md:w-60">
