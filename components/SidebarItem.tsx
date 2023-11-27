@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ISidebarItem } from "./types"
 import { useState } from "react"
+import styles from "./components.module.css";
 
 const SideBarItem = ({ href, title, children }: ISidebarItem) => {
   const router = useRouter()
@@ -52,7 +53,8 @@ const SideBarItem = ({ href, title, children }: ISidebarItem) => {
     <li className="m-2" key={title}>
       <Link href={href}>
         <div
-          className={`flex items-center w-full p-2 transition duration-75 rounded-lg group hover:bg-amber-100 dark:text-white dark:hover:bg-amber-700`}
+          // className={`flex items-center w-full p-2 transition duration-75 rounded-lg group hover:bg-amber-100 dark:text-white dark:hover:bg-amber-700`}
+          className={styles.sidebarButton}
         >
           <span className={`flex-1 ml-2 text-left whitespace-nowrap ${router.asPath === href && "font-bold"}`}>
             {title}
