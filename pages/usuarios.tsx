@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react"
 import UserGridRow from "@/components/userGridRow"
 
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionBody, } from '@material-tailwind/react';
+
+
 function HeaderItem({ title }: { title: string }) {
   return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
 
 export default function Usuarios() {
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
+
+  const [open, setOpen] = useState(1);
+  const handleOpen = (value) => setOpen(open === value ? 0 : value); 
 
   useEffect(() => {
-    fetch("https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos")
+    fetch("http://localhost:3001/recursos")
       .then((res) => {
         return res.json()
       })
@@ -19,14 +28,19 @@ export default function Usuarios() {
   }, [])
 
   return (
-    <>
+    <div>
 
       {/* ACA EMPIEZA LA GRILLA */}
 
       <div className="container max-w-7xl mx-auto mt-8">
         <div className="mb-4">
-          <h1 className="text-3xl font-bold decoration-gray-400">Usuarios</h1>
+          <h1 className="text-3xl font-bold decoration-gray-400">Tickets</h1>
         </div>
+
+        <div>
+        <Accordion open={open === 1}>
+        <AccordionHeader onClick={() => handleOpen(1)}>Sprint 1</AccordionHeader>
+        <AccordionBody>    
         <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
             <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
@@ -48,7 +62,10 @@ export default function Usuarios() {
             </div>
           </div>
         </div>
+        </AccordionBody>
+        </Accordion>
+        </div>
       </div>
-    </>
+    </div>
   )
 }
