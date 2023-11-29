@@ -8,13 +8,13 @@ function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
 
-export default function Tareas() {
+export default function Tareas({id}:{id:any}) {
     const [tareas, setTareas] = useState([]);
     const [proyecto, setProyecto] = useState([]);
 
     const router = useRouter();
     
-    const {id} = router.query;
+    //const {id} = router.query;
 
     useEffect(() => {
         fetch(`http://localhost:3001/proyecto/${id}`)
@@ -94,3 +94,12 @@ export default function Tareas() {
 }
 
 
+export const getServerSideProps = async (context: any) => {
+    const { id } = context.query;
+    
+    return {
+      props: {
+        id,
+      },
+    };
+  };

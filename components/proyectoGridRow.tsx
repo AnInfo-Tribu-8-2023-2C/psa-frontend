@@ -7,6 +7,7 @@ import FormatDate from "./formatDate";
 
 export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
 
+    
     const router = useRouter();
 
     const [modalEliminar, setModalEliminar] = useState({
