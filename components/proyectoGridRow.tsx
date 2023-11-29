@@ -3,6 +3,7 @@ import ModalConfirmar from "./modalConfirmar";
 import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalEditarProyecto from "./modalEditarProyecto";
+import FormatDate from "./formatDate";
 
 export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
 
@@ -43,7 +44,19 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{proyecto['descripcion']}</div>
+                <div className="text-sm leading-5 text-gray-900">{proyecto['lider']}</div>
+            </td>
+            
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div className="text-sm leading-5 text-gray-900">{proyecto['estado']}</div>
+            </td>
+            
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaIni']}/></div>
+            </td>
+
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFin']}/></div>
             </td>
 
             
@@ -75,8 +88,7 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
                         <div className='container'>
                             <h1 className='text-3xl font-bold decoration-gray-400'>Eliminar Proyecto !</h1>
                             <h1 className='text-2xl font-bold decoration-gray-400'>Desea eliminar el proyecto: <b className="text-blue-600">{ proyecto['nombre'] }</b>?</h1><br/>
-                            <p>Al <b>Confirmar</b> se borrará el proyecto y todas sus tareas asociadas...</p><br/>
-                            
+                            <p>Al <b>Confirmar</b> se borrará el proyecto y todas sus tareas asociadas...</p><br/>                     
                             <div className='flex flex-row-reverse gap-10'>
                                 <button 
                                     onClick={()=> BorrarProyecto(proyecto)}
@@ -86,7 +98,6 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
                                     </svg>
                                         Confirmar
                             </button>   
-
                             <button 
                                 onClick={() => setModalEliminar({isOpen: false, todo: {}})}
                                 className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md">
@@ -96,9 +107,7 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
                                     Cancelar
                             </button>
                         </div>   
-
-
-                        </div>
+                       </div>
                 </ModalConfirmar>
 
 
