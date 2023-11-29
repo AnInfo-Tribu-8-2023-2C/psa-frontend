@@ -17,6 +17,10 @@ export default function Layout({ children }: { children: any }) {
     {
       href: "/productos",
       title: "Productos",
+    },
+    {
+      href: "/proyectos",
+      title: "Proyectos",
     }
   ]
 
