@@ -40,7 +40,7 @@ export default function Tareas() {
 
     const [contadorTareas, setContadorTareas] = useState(0);
 
-    
+
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
@@ -52,7 +52,7 @@ export default function Tareas() {
                     <hr/>
                 </div>
 
-                <MostrarProyecto proyecto={proyecto} contador={contadorTareas}/>
+                <MostrarProyecto proyecto={proyecto} />
 
                 <div className="mb-4">
                     <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
@@ -92,3 +92,5 @@ export default function Tareas() {
         </>
     )
 }
+
+

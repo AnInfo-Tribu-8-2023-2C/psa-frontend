@@ -1,5 +1,24 @@
 
+import ModalConfirmar from "./modalConfirmar";
+import { useState } from "react";
+import { useRouter } from 'next/router';
+
 export default function TareaGridRow({ tarea }: { tarea: any }) {
+
+    const router = useRouter();
+    const {id = 112 }: any = router.query;
+    
+    const [modalEliminar, setModalEliminar] = useState({
+        isOpen: false,
+        todo: {}
+    })
+
+    const BorrarTarea = (tarea:any) => {
+        fetch(`http://localhost:3001/deleteTarea/${tarea.id}`,{ method: 'DELETE'});
+        setModalEliminar({isOpen: false, todo: {}});
+        //router.push({pathname: `./tareas/${id}`})
+        window.location.reload();
+    } 
 
     return (
         <tr key={`${tarea['id']}`}>
@@ -30,12 +49,44 @@ export default function TareaGridRow({ tarea }: { tarea: any }) {
                         Editar
                 </button>
             
-                <button className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md">
+                <button 
+                onClick={() => setModalEliminar({isOpen : true,todo:{}})}
+                className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md">
 	                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 	                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 	                </svg>
                         Borrar
                 </button> 
+                <ModalConfirmar isOpen={modalEliminar.isOpen} onClose={() => setModalEliminar({isOpen: false, todo: {}}) }>
+                        <div className='container'>
+                            <h1 className='text-3xl font-bold decoration-gray-400'>Eliminar Tarea!</h1>
+                            <h1 className='text-2xl font-bold decoration-gray-400'>Desea eliminar la tarea: <b className="text-blue-600">{ tarea['nombre'] }</b>?</h1><br/>
+                            <p>Al <b>Confirmar</b> se borrará la tarea asocoada al proyecto...</p><br/>                     
+                            <div className='flex flex-row-reverse gap-10'>
+                                <button 
+                                    onClick={()=> BorrarTarea(tarea)}
+                                    className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
+	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 13.5l3 3m0 0l3-3m-3 3v-6m1.06-4.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                                    </svg>
+                                        Confirmar
+                            </button>   
+                            <button 
+                                onClick={() => setModalEliminar({isOpen: false, todo: {}})}
+                                className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md">
+	                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                    Cancelar
+                            </button>
+                        </div>   
+                       </div>
+                </ModalConfirmar>
+
+
+
+
+
 
                 <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
 	                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

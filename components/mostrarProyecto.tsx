@@ -1,6 +1,6 @@
 import styles from "./mostrarProyecto.module.css";
 
-export default function MostrarProyecto( { proyecto, contador} : {proyecto: any, contador:any} ){
+export default function MostrarProyecto( { proyecto} : {proyecto: any} ){
         
     return (
         <div className={styles.cajaProyecto}>
@@ -13,7 +13,7 @@ export default function MostrarProyecto( { proyecto, contador} : {proyecto: any,
             </div>
 
             <div className={styles.caja2}>
-                <b>Cantidad de Tareas: {contador}</b>
+                <b>Cantidad de Tareas: </b>
             
             </div>       
         </div>
