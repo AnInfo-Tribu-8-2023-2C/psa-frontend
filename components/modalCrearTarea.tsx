@@ -51,14 +51,14 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
             <input 
             onChange={(event)=>{setNombre(event.target.value); }}
-            type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese Nombre del Proyecto" required/>
+            type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese Nombre de la tarea" required/>
         </div><br/>
 
         <div>
             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción:</label>
             <textarea 
             onChange={(event)=>{setDescripcion(event.target.value); }}
-            id="message" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese una descripción del proyecto..."></textarea>
+            id="message" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese una descripción de la tarea..."></textarea>
         </div><br/> 
 
             <div className='input-group mb-3' >
@@ -98,10 +98,10 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
         </div><br/>
         
         <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Horas Estimadas:</label>
             <input 
             onChange={(event)=>{setHorasCalculadas(event.target.value); }}
-            type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese Nombre del Proyecto" required/>
+            type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required/>
         </div><br/>
     
 

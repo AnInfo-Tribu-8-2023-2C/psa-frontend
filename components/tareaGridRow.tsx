@@ -60,7 +60,7 @@ export default function TareaGridRow({ tarea }: { tarea: any }) {
                         <div className='container'>
                             <h1 className='text-3xl font-bold decoration-gray-400'>Eliminar Tarea!</h1>
                             <h1 className='text-2xl font-bold decoration-gray-400'>Desea eliminar la tarea: <b className="text-blue-600">{ tarea['nombre'] }</b>?</h1><br/>
-                            <p>Al <b>Confirmar</b> se borrará la tarea asocoada al proyecto...</p><br/>                     
+                            <p>Al <b>Confirmar</b> se borrará la tarea asociada al proyecto...</p><br/>                     
                             <div className='flex flex-row-reverse gap-10'>
                                 <button 
                                     onClick={()=> BorrarTarea(tarea)}
