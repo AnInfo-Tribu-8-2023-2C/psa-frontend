@@ -90,8 +90,10 @@ export default function Tareas({id}:{id:any}) {
                                 <tr>
                                     <HeaderItem title="ID" />
                                     <HeaderItem title="Nombre" />
-                                    <HeaderItem title="Descripción" />
+                                    <HeaderItem title="Tecnico" />
                                     <HeaderItem title="Estado" />
+                                    <HeaderItem title="Fecha de Inicio" />
+                                    <HeaderItem title="Horas" />
                                     <HeaderItem title="Acciones" />
                                 </tr>
                                 </thead>

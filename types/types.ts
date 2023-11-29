@@ -24,6 +24,11 @@ export interface Tarea {
   id: string
   nombre: string
   descripcion: string
+  fechaIni: Date
+  estado: string
+  tecnico: string
+  horasCalculadas: number
+  proyecto: number
 }
 
 export interface ContadorTareas {

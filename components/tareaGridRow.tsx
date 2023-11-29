@@ -30,11 +30,19 @@ export default function TareaGridRow({ tarea }: { tarea: any }) {
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{tarea['descripcion']}</div>
+                <div className="text-sm leading-5 text-gray-900">{tarea['tecnico']}</div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                 <div className="text-sm leading-5 text-gray-900">{tarea['estado']}</div>
+            </td>
+
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div className="text-sm leading-5 text-gray-900">{tarea['fechaIni']}</div>
+            </td>
+
+            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div className="text-sm leading-5 text-gray-900">{tarea['horasCalculadas']}</div>
             </td>
 
             
