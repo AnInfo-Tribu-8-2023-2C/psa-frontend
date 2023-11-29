@@ -13,6 +13,7 @@ export default function Tareas() {
     const [proyecto, setProyecto] = useState([]);
 
     const router = useRouter();
+    console.log(router.query)
 
     const {id} = router.query;
     // a modo de test fijo un numero de proyecto
