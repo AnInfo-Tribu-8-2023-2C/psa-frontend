@@ -26,4 +26,11 @@ export interface Tarea {
   descripcion: string
 }
 
+export interface ContadorTareas {
+  total: number
+  iniciadas: number
+  enProceso: number
+  Bloqueadas: number
+}
+
 

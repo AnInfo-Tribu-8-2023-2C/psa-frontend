@@ -13,12 +13,8 @@ export default function Tareas() {
     const [proyecto, setProyecto] = useState([]);
 
     const router = useRouter();
-    console.log(router.query)
-
+    
     const {id} = router.query;
-    // a modo de test fijo un numero de proyecto
-    // const id = 112; 
-
 
     useEffect(() => {
         fetch(`http://localhost:3001/proyecto/${id}`)
@@ -40,8 +36,11 @@ export default function Tareas() {
             .then((data) => {
                 setTareas(data)
             })
-    }, [])
+    }, []);
 
+    const [contadorTareas, setContadorTareas] = useState(0);
+
+    
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
@@ -53,7 +52,7 @@ export default function Tareas() {
                     <hr/>
                 </div>
 
-                <MostrarProyecto proyecto={proyecto}/>
+                <MostrarProyecto proyecto={proyecto} contador={contadorTareas}/>
 
                 <div className="mb-4">
                     <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
@@ -78,10 +77,12 @@ export default function Tareas() {
                                 </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody>                                
                                 {tareas.map((tarea) => (
                                     <TareaGridRow key={tarea['id']} tarea={tarea} />
-                                ))}
+                                ))}    
+
+
                                 </tbody>
                             </table>
                         </div>
