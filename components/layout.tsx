@@ -4,11 +4,8 @@ import SideBarItem from "./SidebarItem"
 import { ISidebarItem } from "./types"
 
 export default function Layout({ children }: { children: any }) {
+  //Aqui se agregan los href que refencias los pages de la app
   const menuItems: ISidebarItem[] = [
-    {
-      href: "/",
-      title: "Homepage",
-    },
     {
       href: "/clientes",
       title: "Clientes",
@@ -16,6 +13,10 @@ export default function Layout({ children }: { children: any }) {
     {
       href: "/usuarios",
       title: "Usuarios",
+    },
+    {
+      href: "/productos",
+      title: "Productos",
     }
   ]
 
