@@ -3,6 +3,7 @@ import  TareaGridRow  from "@/components/tareaGridRow";
 import MostrarProyecto from "@/components/mostrarProyecto";
 import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
+import ModalCrearTarea from "@/components/modalCrearTarea";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -11,8 +12,21 @@ function HeaderItem({ title }: { title: string }) {
 export default function Tareas({id}:{id:any}) {
     const [tareas, setTareas] = useState([]);
     const [proyecto, setProyecto] = useState([]);
+    const [datos, setDatos] = useState({});
 
     const router = useRouter();
+
+    const [crearTareaModal, setCrearTareaModal] = useState(false);
+
+    const guardarDatos = (datos: any) => {
+        setDatos(datos);
+        fetch("http://localhost:3001/tarea", {
+            method:'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-type' : 'Application/json'}
+        } );
+        window.location.reload();
+    }
     
     //const {id} = router.query;
 
@@ -55,12 +69,17 @@ export default function Tareas({id}:{id:any}) {
                 <MostrarProyecto proyecto={proyecto} />
 
                 <div className="mb-4">
-                    <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
+                    <button 
+                    onClick={()=> setCrearTareaModal(true)}
+                    className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                 	        Crear Tarea
                     </button>
+                    <ModalCrearTarea isOpen={ crearTareaModal } onClose={ () => setCrearTareaModal(false) } guardarDatos= {guardarDatos} idProyecto={id}>
+                        <button onClick={() => setCrearTareaModal(false)}>Guardar</button>
+                    </ModalCrearTarea>
                 </div>
 
                 <div className="flex flex-col">
