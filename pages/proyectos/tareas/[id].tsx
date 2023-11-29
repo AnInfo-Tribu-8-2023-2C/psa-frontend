@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import  TareaGridRow  from "@/components/tareaGridRow";
 import MostrarProyecto from "@/components/mostrarProyecto";
 import { Proyecto } from "@/types/types";
+import { useRouter } from 'next/router';
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -11,11 +12,15 @@ export default function Tareas() {
     const [tareas, setTareas] = useState([]);
     const [proyecto, setProyecto] = useState([]);
 
+    const router = useRouter();
+
+    const {id} = router.query;
     // a modo de test fijo un numero de proyecto
-    const idProyecto = 112;
+    // const id = 112; 
+
 
     useEffect(() => {
-        fetch(`http://localhost:3001/proyecto/${idProyecto}`)
+        fetch(`http://localhost:3001/proyecto/${id}`)
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -26,7 +31,7 @@ export default function Tareas() {
     }, [])
 
     useEffect(() => {
-        fetch(`http://localhost:3001/proyectoTareas/${idProyecto}`)
+        fetch(`http://localhost:3001/proyectoTareas/${id}`)
             .then((res) => {
                 console.log(res)
                 return res.json()

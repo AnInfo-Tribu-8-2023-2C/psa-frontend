@@ -1,8 +1,11 @@
 import { useState } from "react";
 import ModalConfirmar from "./modalConfirmar";
 import { Proyecto } from "@/types/types";
+import { useRouter } from 'next/router';
 
-export default function ProyectoGridRow({ proyecto }: { proyecto: any }) {
+export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
+
+    const router = useRouter();
 
     const [modalEliminar, setModalEliminar] = useState({
         isOpen: false,
@@ -82,7 +85,9 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: any }) {
 
 
 
-                <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
+                <button
+                    onClick={() => router.push({pathname: `./proyectos/tareas/${proyecto['id']}` })}
+                    className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
 	                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 	                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" />
 	                </svg>
