@@ -1,3 +1,4 @@
+import { Bigelow_Rules } from "next/font/google";
 import styles from "./mostrarProyecto.module.css";
 import ProgressBar from "./progressBar";
 
@@ -22,29 +23,29 @@ export default function MostrarProyecto( { proyecto,Tareas} : {proyecto: any; Ta
             <div className={styles.caja2}>
                            
                                 
-                <table >
-                    <tr >
-                        <td>Total de Tareas:    {cantidadTareas}</td>
-                        <td></td>
-                    </tr> 
-                       
-                    <tr>
-                        <td>Tareas en progreso: {enProgreso}</td>
-                        <td style={{width : '70%'}}><ProgressBar totalTasks={cantidadTareas} completedTasks={enProgreso}/></td>
-                    </tr>
-                    <tr>
-                        <td>Tareas en Iniciadas: {iniciados}</td>
-                        <td><ProgressBar totalTasks={cantidadTareas} completedTasks={iniciados}/></td>
-                    </tr>
-                    <tr>
-                        <td>Tareas bloquedas: {bloqueado}</td>
-                        <td><ProgressBar totalTasks={cantidadTareas} completedTasks={bloqueado}/></td>
-                    </tr>
-                    <tr>
-                        <td>Tareas finalizadas: {finalizado}</td>
-                        <td><ProgressBar totalTasks={cantidadTareas} completedTasks={finalizado}/></td>
-                    </tr>                
-                </table >
+                <div>Total de Tareas:{cantidadTareas}</div>
+                <div className='flex'>
+                    <div className="w-40 ">Tareas en progreso: {enProgreso} </div>
+                    <div className="flex-grow "><ProgressBar totalTasks={cantidadTareas} completedTasks={enProgreso}/> </div>
+                </div>
+
+                <div className='flex'>
+                    <div className="w-40 ">Tareas en Iniciadas: {iniciados} </div>
+                    <div className="flex-grow "><ProgressBar totalTasks={cantidadTareas} completedTasks={iniciados}/> </div>
+                </div>
+                
+                <div className='flex'>
+                    <div className="w-40 ">Tareas bloqueadas: {bloqueado} </div>
+                    <div className="flex-grow "><ProgressBar totalTasks={cantidadTareas} completedTasks={bloqueado}/> </div>
+                </div>
+                
+                <div className='flex'>
+                    <div className="w-40 ">Tareas finalizadas: {finalizado} </div>
+                    <div className="flex-grow "><ProgressBar totalTasks={cantidadTareas} completedTasks={finalizado}/> </div>
+                </div>
+
+            
+               
                 
             </div>       
         </div>
