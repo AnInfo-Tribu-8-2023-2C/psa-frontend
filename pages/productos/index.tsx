@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import ClientGridRow from "@/components/clientGridRow";
-import ProductGridRow from "@/components/productGridRow";
+import ProductGridRow from "@/components/ProductGridRow";
 import { Producto } from "@/types/types";
 
 const HeaderItem = ({ title }: { title: string }) => {
