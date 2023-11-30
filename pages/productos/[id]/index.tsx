@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import ProductGridRow from "@/components/ProductGridRow";
-import { Producto } from "@/types/types";
+import { VersionProducto } from "@/types/types";
+import ProductVersionGridRow from "@/components/ProductVersionGridRow";
+import { useRouter } from "next/router";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -10,8 +11,10 @@ const HeaderItem = ({ title }: { title: string }) => {
   );
 };
 
-export default function Productos() {
-  const [list, setList] = useState<Producto[]>([]);
+export default function VersionesDeProducto() {
+  const router = useRouter();
+  const productoId = router.query.id;
+  const [list, setList] = useState<VersionProducto[]>([]);
 
   // useEffect(() => {
   //   fetch(
@@ -27,35 +30,36 @@ export default function Productos() {
   // }, []);
 
   useEffect(() => {
+    console.log("productID: ", productoId);
     setList([
       {
         id: "1",
-        nombre: "Producto 1",
-        versiones: 2,
+        version: "1.0.0",
+        fechaModificacion: new Date("2021-08-01"),
       },
       {
         id: "2",
-        nombre: "Producto 2",
-        versiones: 4,
+        version: "2.0.0",
+        fechaModificacion: new Date("2021-09-01"),
       },
       {
         id: "3",
-        nombre: "Producto 3",
-        versiones: 1,
+        version: "3.0.0",
+        fechaModificacion: new Date("2022-08-01"),
       },
       {
         id: "4",
-        nombre: "Producto 4",
-        versiones: 4,
+        version: "4.0.0",
+        fechaModificacion: new Date("2022-09-01"),
       },
     ]);
   }
-  , []);
+  , [productoId]);
 
   return (
     <div className="container max-w-7xl mx-auto mt-8">
       <div className="mb-4">
-        <h1 className="text-3xl font-bold decoration-gray-400">Productos</h1>
+        <h1 className="text-3xl font-bold decoration-gray-400">Versiones de Producto -aqui va nombre de producto -</h1>
       </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -64,15 +68,15 @@ export default function Productos() {
               <thead>
                 <tr>
                   <HeaderItem title="ID" />
-                  <HeaderItem title="Producto" />
-                  <HeaderItem title="Versiones" />
+                  <HeaderItem title="Versión" />
+                  <HeaderItem title="Fecha de modificación" />
                   <HeaderItem title="" />
                 </tr>
               </thead>
 
               <tbody>
-                {list.map((producto) => (
-                  <ProductGridRow key={producto.id} producto={producto} />
+                {list.map((version) => (
+                  <ProductVersionGridRow key={version.id} version={version} />
                 ))}
               </tbody>
             </table>

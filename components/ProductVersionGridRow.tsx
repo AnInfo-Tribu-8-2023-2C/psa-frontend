@@ -1,26 +1,26 @@
 import React from "react";
-import { Producto } from "@/types/types";
+import { VersionProducto } from "@/types/types";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
 
 interface Props {
-  producto: Producto;
+  version: VersionProducto;
 }
 
-export default function ProductGridRow({ producto }: Props) {
+export default function ProductVersionGridRow({ version }: Props) {
   return (
-    <tr key={`${producto.id}`}>
+    <tr key={`${version.id}`}>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{producto.id}</div>
+        <div className="flex items-center">{version.id}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{producto.nombre}</div>
+        <div className="flex items-center">{version.version}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="text-sm leading-5 text-gray-900">
-          {producto.versiones}
+          {version.fechaModificacion.toLocaleString('en-GB', {timeStyle: 'short', dateStyle: 'medium'})}
         </div>
       </td>
 
@@ -35,8 +35,8 @@ export default function ProductGridRow({ producto }: Props) {
         >
           <Link
             href={{
-              pathname: "/productos/[slug]",
-              query: { slug: producto.id },
+              pathname: "/productos/version/[slug]",
+              query: { slug: version.version },
             }}
           >
             <ArrowForwardIosIcon />
