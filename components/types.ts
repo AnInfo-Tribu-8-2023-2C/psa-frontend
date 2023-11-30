@@ -11,3 +11,4 @@ export interface ModalProps {
   setModalOpen: (x: boolean) => void
   list: Usuario[]
 }
+

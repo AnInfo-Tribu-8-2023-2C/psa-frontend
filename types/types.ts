@@ -9,4 +9,8 @@ export interface Cliente {
   razon_social: string
   cuit: number
 }
-
+export interface Producto {
+  id: string
+  nombre: string
+  version: string
+}
