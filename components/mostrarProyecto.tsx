@@ -22,7 +22,7 @@ export default function MostrarProyecto( { proyecto,Tareas} : {proyecto: any; Ta
             <div className={styles.caja2}>
                            
                                 
-                <table className='min-w-full'>
+                <table >
                     <tr >
                         <td>Total de Tareas:    {cantidadTareas}</td>
                         <td></td>
