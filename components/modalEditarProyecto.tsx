@@ -4,7 +4,6 @@ import styles from './modalCrearProyectos.module.css';
 const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any) => void;proyecto:any;children:any}) => {
     
     const [recursos,setRecursos] = useState([])
-
     const [id,setId] = useState(proyecto['id'])
     const [nombre, setNombre] = useState(proyecto['nombre']);
     const [descripcion, setDescripcion] = useState(proyecto['descripcion']);
@@ -31,15 +30,15 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
       <div className={styles.modalBody}>
         
        <div className='flex flex-row-reverse'>
-        <button 
-        onClick={onClose}
-        type="button" className="flex flex-row-reverse text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center  items-center me-2 dark:bg-red-600 dark:hover:bg-bred-700 dark:focus:ring-red-800">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <span className="sr-only">Icon description</span>
-        </button>
-      </div>  
+            <button 
+            onClick={onClose}
+            type="button" className="flex flex-row-reverse text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center  items-center me-2 dark:bg-red-600 dark:hover:bg-bred-700 dark:focus:ring-red-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="sr-only">Icon description</span>
+            </button>
+        </div>  
         <h1 className='text-3xl font-bold decoration-gray-400'>Editar Proyecto</h1> 
         <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>  
       
@@ -55,8 +54,8 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
         <div>
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
             <input 
-            onChange={(event)=>{setNombre(event.target.value); }}
-            value={nombre}
+            onChange={(event)=>{setNombre(event.target.value); }} 
+            value={nombre}     
             type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese Nombre del Proyecto" required/>
         </div><br/>
 

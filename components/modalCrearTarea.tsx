@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
-import { te } from 'date-fns/locale';
 
 const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{isOpen: boolean; onClose: () => void; guardarDatos: (datos: any) => void;idProyecto:any; children:any}) => {
     

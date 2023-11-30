@@ -100,7 +100,7 @@ export default function Tareas({id}:{id:any}) {
 
                                 <tbody>                                
                                 {tareas.map((tarea) => (
-                                    <TareaGridRow key={tarea['id']} tarea={tarea} />
+                                    <TareaGridRow key={tarea['id']} tarea={tarea} idProyecto={id} />
                                 ))}    
 
 
