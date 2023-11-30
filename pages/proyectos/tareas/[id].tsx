@@ -4,6 +4,7 @@ import MostrarProyecto from "@/components/mostrarProyecto";
 import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalCrearTarea from "@/components/modalCrearTarea";
+import { Cantora_One } from "next/font/google";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -16,7 +17,7 @@ export default function Tareas({id}:{id:any}) {
 
     const router = useRouter();
 
-    const [crearTareaModal, setCrearTareaModal] = useState(false);
+    const [crearTareaModal, setCrearTareaModal] = useState(false);       
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
@@ -41,6 +42,7 @@ export default function Tareas({id}:{id:any}) {
             })
     }, [])
 
+
     useEffect(() => {
         fetch(`http://localhost:3001/proyectoTareas/${id}`)
             .then((res) => {
@@ -52,21 +54,20 @@ export default function Tareas({id}:{id:any}) {
             })
     }, []);
 
-    const [contadorTareas, setContadorTareas] = useState(0);
-
-
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
 
             <div className="container max-w-7xl mx-auto mt-8">
                 <div className="mb-4">
-                    <h1 className="text-3xl font-bold decoration-gray-400">Tareas</h1>
+                    <h1 className="text-3xl font-bold decoration-gray-400">Proyecto: {id} </h1>
+                    <h1 className="text-3xl font-bold decoration-gray-400">Listado de Tareas</h1>
                     <br/>
                     <hr/>
                 </div>
 
-                <MostrarProyecto proyecto={proyecto} />
+                <MostrarProyecto proyecto={proyecto}  Tareas={tareas}/>
+
 
                 <div className="mb-4">
                     <button 
