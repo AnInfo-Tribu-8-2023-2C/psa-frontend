@@ -35,7 +35,7 @@ export default function ProductGridRow({ producto }: Props) {
         >
           <Link
             href={{
-              pathname: "/productos/[slug]",
+              pathname: "/producto/[slug]",
               query: { slug: producto.id },
             }}
           >

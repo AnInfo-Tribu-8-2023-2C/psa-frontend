@@ -5,9 +5,10 @@ import Link from "next/link";
 
 interface Props {
   version: VersionProducto;
+  productId: string;
 }
 
-export default function ProductVersionGridRow({ version }: Props) {
+export default function ProductVersionGridRow({ version, productId }: Props) {
   return (
     <tr key={`${version.id}`}>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -35,8 +36,8 @@ export default function ProductVersionGridRow({ version }: Props) {
         >
           <Link
             href={{
-              pathname: "/productos/version/[slug]",
-              query: { slug: version.version },
+              pathname: "/producto/[productId]/version/[version]",
+              query: { version: version.version, productId: productId },
             }}
           >
             <ArrowForwardIosIcon />

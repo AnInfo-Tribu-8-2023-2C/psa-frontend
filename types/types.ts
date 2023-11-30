@@ -49,4 +49,16 @@ export interface ContadorTareas {
   Bloqueadas: number
 }
 
+export interface TicketDeProducto {
+  id: string
+  nombre: string
+  descripcion: string
+  fechaInicial: Date
+  fechaModificacion: Date
+  estado: string
+  horasCalculadas: number
+  proyecto?: number
+  version?: number
+}
+
 

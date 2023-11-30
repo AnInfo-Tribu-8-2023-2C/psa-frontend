@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: any }) {
       title: "Usuarios",
     },
     {
-      href: "/productos",
+      href: "/producto",
       title: "Productos",
     },
     {

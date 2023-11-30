@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { VersionProducto } from "@/types/types";
-import ProductVersionGridRow from "@/components/ProductVersionGridRow";
-import { useRouter } from "next/router";
+import ProductGridRow from "@/components/ProductGridRow";
+import { Producto } from "@/types/types";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -11,10 +10,8 @@ const HeaderItem = ({ title }: { title: string }) => {
   );
 };
 
-export default function VersionesDeProducto() {
-  const router = useRouter();
-  const productoId = router.query.id;
-  const [list, setList] = useState<VersionProducto[]>([]);
+export default function Productos() {
+  const [list, setList] = useState<Producto[]>([]);
 
   // useEffect(() => {
   //   fetch(
@@ -30,36 +27,35 @@ export default function VersionesDeProducto() {
   // }, []);
 
   useEffect(() => {
-    console.log("productID: ", productoId);
     setList([
       {
         id: "1",
-        version: "1.0.0",
-        fechaModificacion: new Date("2021-08-01"),
+        nombre: "Producto 1",
+        versiones: 2,
       },
       {
         id: "2",
-        version: "2.0.0",
-        fechaModificacion: new Date("2021-09-01"),
+        nombre: "Producto 2",
+        versiones: 4,
       },
       {
         id: "3",
-        version: "3.0.0",
-        fechaModificacion: new Date("2022-08-01"),
+        nombre: "Producto 3",
+        versiones: 1,
       },
       {
         id: "4",
-        version: "4.0.0",
-        fechaModificacion: new Date("2022-09-01"),
+        nombre: "Producto 4",
+        versiones: 4,
       },
     ]);
   }
-  , [productoId]);
+  , []);
 
   return (
     <div className="container max-w-7xl mx-auto mt-8">
       <div className="mb-4">
-        <h1 className="text-3xl font-bold decoration-gray-400">Versiones de Producto -aqui va nombre de producto -</h1>
+        <h1 className="text-3xl font-bold decoration-gray-400">Productos</h1>
       </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -68,15 +64,15 @@ export default function VersionesDeProducto() {
               <thead>
                 <tr>
                   <HeaderItem title="ID" />
-                  <HeaderItem title="Versión" />
-                  <HeaderItem title="Fecha de modificación" />
+                  <HeaderItem title="Producto" />
+                  <HeaderItem title="Versiones" />
                   <HeaderItem title="" />
                 </tr>
               </thead>
 
               <tbody>
-                {list.map((version) => (
-                  <ProductVersionGridRow key={version.id} version={version} />
+                {list.map((producto) => (
+                  <ProductGridRow key={producto.id} producto={producto} />
                 ))}
               </tbody>
             </table>
