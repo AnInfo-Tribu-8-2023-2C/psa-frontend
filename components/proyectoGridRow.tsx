@@ -6,7 +6,6 @@ import ModalEditarProyecto from "./modalEditarProyecto";
 import FormatDate from "./formatDate";
 
 export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
-
     
     const router = useRouter();
 
@@ -19,14 +18,14 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
     const [datos,setDatos] = useState({});
 
     const BorrarProyecto = (proyecto:any) => {
-        fetch(`http://localhost:3001/deleteProyecto/${proyecto.id}`,{ method: 'DELETE'});
+        fetch(`http://localhost:8080/project/${proyecto.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 
 
     const editarDatos = (data:any) => {
         setDatos(data);
-        fetch("http://localhost:3001/proyecto",{
+        fetch("http://localhost:8080/project",{
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
@@ -41,23 +40,23 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="flex items-center">{proyecto['nombre']}</div>
+                <div className="flex items-center">{proyecto['name']}</div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{proyecto['lider']}</div>
+                <div className="text-sm leading-5 text-gray-900">{proyecto['leader']}</div>
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{proyecto['estado']}</div>
+                <div className="text-sm leading-5 text-gray-900">{proyecto['status']}</div>
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaIni']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['date_created']}/></div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFin']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['date_finished']}/></div>
             </td>
 
             
@@ -88,7 +87,7 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
                 <ModalConfirmar isOpen={modalEliminar.isOpen} onClose={() => setModalEliminar({isOpen: false, todo: {}}) }>
                         <div className='container'>
                             <h1 className='text-3xl font-bold decoration-gray-400'>Eliminar Proyecto !</h1>
-                            <h1 className='text-2xl font-bold decoration-gray-400'>Desea eliminar el proyecto: <b className="text-blue-600">{ proyecto['nombre'] }</b>?</h1><br/>
+                            <h1 className='text-2xl font-bold decoration-gray-400'>Desea eliminar el proyecto: <b className="text-blue-600">{ proyecto['name'] }</b>?</h1><br/>
                             <p>Al <b>Confirmar</b> se borrará el proyecto y todas sus tareas asociadas...</p><br/>                     
                             <div className='flex flex-row-reverse gap-10'>
                                 <button 

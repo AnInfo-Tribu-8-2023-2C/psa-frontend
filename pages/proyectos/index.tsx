@@ -14,7 +14,7 @@ export default function Proyectos() {
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:3001/proyecto", {
+        fetch("http://localhost:8080/project", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -23,7 +23,7 @@ export default function Proyectos() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:3001/proyectos")
+        fetch("http://localhost:8080/projects")
             .then((res) => {
                 console.log(res)
                 return res.json()

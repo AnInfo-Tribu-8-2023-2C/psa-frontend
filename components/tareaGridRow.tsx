@@ -14,7 +14,7 @@ export default function TareaGridRow({ tarea }: { tarea: any }) {
     })
 
     const BorrarTarea = (tarea:any) => {
-        fetch(`http://localhost:3001/deleteTarea/${tarea.id}`,{ method: 'DELETE'});
+        fetch(`http://localhost:8080/task/${tarea.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 

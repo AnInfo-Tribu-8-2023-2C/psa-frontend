@@ -11,13 +11,19 @@ export interface Cliente {
 }
 
 export interface Proyecto {
-  id: string
-  nombre: string
-  descripcion: string
-  lider: string
-  estado: string
-  fechaIni: Date
-  fechaFin: Date
+  id: number
+  name: string
+  description: string
+  leader: string
+  status: string
+  date_created: Date
+  date_finished: Date
+}
+
+export interface Colaborador {
+  id: number
+  name: string
+  lastname: string
 }
 
 export interface Tarea {

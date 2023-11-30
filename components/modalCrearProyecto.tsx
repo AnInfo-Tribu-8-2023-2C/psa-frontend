@@ -15,7 +15,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("http://localhost:3001/recursos")
+        fetch("http://localhost:8080/collaborators")
             .then((res) => {
                 return res.json()
             })
@@ -64,7 +64,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
                  onChange={(event)=>{setLider(event.target.value)}}>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['lejajo']} value={recurso['Nombre']+' '+recurso['Apellido']}>{recurso['Nombre']} {recurso['Apellido']}</option>
+                            <option key={recurso['id']} value={recurso['name']+' '+recurso['lastname']}>{recurso['name']} {recurso['lastname']}</option>
                         ))
                     }
                 </select>
