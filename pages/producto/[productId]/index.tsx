@@ -59,7 +59,7 @@ export default function VersionesDeProducto() {
   return (
     <div className="container max-w-7xl mx-auto mt-8">
       <div className="mb-4">
-        <h1 className="text-3xl font-bold decoration-gray-400">Versiones de Producto -aqui va nombre de producto -</h1>
+        <h1 className="text-3xl font-bold decoration-gray-400">Versiones de Producto</h1>
       </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">

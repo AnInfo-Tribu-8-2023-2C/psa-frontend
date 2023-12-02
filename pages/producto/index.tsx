@@ -30,22 +30,22 @@ export default function Productos() {
     setList([
       {
         id: "1",
-        nombre: "Producto 1",
-        versiones: 2,
+        nombre: "CyberSynth Integration Platform",
+        versiones: 4,
       },
       {
         id: "2",
-        nombre: "Producto 2",
+        nombre: "CodeHarbor for Digital Solutions",
         versiones: 4,
       },
       {
         id: "3",
-        nombre: "Producto 3",
-        versiones: 1,
+        nombre: "DataFuse Nexus",
+        versiones: 4,
       },
       {
         id: "4",
-        nombre: "Producto 4",
+        nombre: "TechNexa Innovations",
         versiones: 4,
       },
     ]);
