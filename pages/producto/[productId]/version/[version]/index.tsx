@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { TicketDeProducto } from "@/types/types";
 import TicketGridRow from "@/components/TicketGridRow";
+import CreateTicketModal from "@/components/CreateTicketModal";
+import { set } from "date-fns";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -13,8 +15,9 @@ const HeaderItem = ({ title }: { title: string }) => {
 
 export default function TicketsDeProducto() {
   const router = useRouter();
-  const version = router.query.version;
+  const version = router.query.version as string;
   const [list, setList] = useState<TicketDeProducto[]>([]);
+  const [modal, setModal] = useState(false);
 
   // useEffect(() => {
   //   fetch(
@@ -109,11 +112,12 @@ export default function TicketsDeProducto() {
       <div style={{display: "flex", marginTop: "auto"}}>
         <button
           className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md"
-          onClick={() => console.log("Crear ticket")}
+          onClick={() => setModal(true)}
         >
           Crear Ticket
         </button>
       </div>
+      <CreateTicketModal isOpen={modal} onClose={() => setModal(false)} productVersionId={version}/>
     </div>
   );
 }

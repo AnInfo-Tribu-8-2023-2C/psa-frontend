@@ -61,4 +61,21 @@ export interface TicketDeProducto {
   version?: number
 }
 
+export enum EstadoTicket {
+  ABIERTO = 'Abierto',
+  ENPROGRESO = 'En Progreso',
+  ENIMPLEMENTACION = 'En Implementacion',
+  CERRADO = 'Cerrado',
+  BLOQUEADO = 'Bloqueado',
+  ENDESARROLLO = 'En Desarrollo', // se crea para desarrollo=???
+  ESPERADECLIENTE = 'Espera de Cliente',
+}
+
+export enum SeveridadTicket {
+  S1 = 'S1',
+  S2 = 'S2',
+  S3 = 'S3',
+  S4 = 'S4',
+}
+
 
