@@ -6,13 +6,13 @@ export interface Usuario {
 
 export interface Cliente {
   id: string
-  razon_social: string
+  "razon social": string
   cuit: number
 }
 export interface Producto {
   id: string
-  nombre: string
-  versiones: number
+  name: string
+  description: string
 }
 
 export interface VersionProducto {
@@ -34,12 +34,6 @@ export interface Proyecto {
 export interface Tarea {
   id: string
   nombre: string
-  descripcion: string
-  fechaIni: Date
-  estado: string
-  tecnico: string
-  horasCalculadas: number
-  proyecto: number
 }
 
 export interface ContadorTareas {
@@ -50,15 +44,15 @@ export interface ContadorTareas {
 }
 
 export interface TicketDeProducto {
-  id: string
-  nombre: string
-  descripcion: string
-  fechaInicial: Date
-  fechaModificacion: Date
-  estado: string
-  horasCalculadas: number
-  proyecto?: number
-  version?: number
+  id: string;
+  title: string;
+  cliente: string;
+  state: EstadoTicket;
+  description: string;
+  severity: SeveridadTicket;
+  tasks: Tarea[];
+  creationDate: Date;
+  updateDate: Date;
 }
 
 export enum EstadoTicket {

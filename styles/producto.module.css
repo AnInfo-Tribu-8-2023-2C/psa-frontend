@@ -1,0 +1,11 @@
+.tableDataContainer {
+    display:flex;
+    padding: 2rem;
+    justify-content: flex-start;
+    background-color: white;
+    border-radius: 18px;
+    max-width: 75rem;
+    width: 75rem;
+    flex-direction: column;
+    height: 100%;
+}

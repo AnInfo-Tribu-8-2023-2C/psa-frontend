@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
-import styles from "./ticketModal.module.css";
-import { SubmitHandler, useForm } from "react-hook-form";
+import styles from "./ticket.module.css";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Cliente, EstadoTicket, SeveridadTicket } from "@/types/types";
+import Select from "react-select";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   productVersionId: string;
+  clientes: Cliente[];
+  tasks: any[];
+  edit?: boolean;
+}
+
+interface TaskOption {
+  value: string;
+  label: string;
 }
 
 interface Inputs {
@@ -15,13 +24,15 @@ interface Inputs {
   state: EstadoTicket;
   severity: SeveridadTicket;
   reportedBy: string;
+  relatedTasks: TaskOption[];
 }
 
-const CreateTicketModal = (props: Props) => {
-  const { isOpen, onClose, productVersionId } = props;
+const TicketModal = (props: Props) => {
+  const { isOpen, onClose, productVersionId, clientes, tasks, edit } = props;
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -30,26 +41,32 @@ const CreateTicketModal = (props: Props) => {
       state: EstadoTicket.ABIERTO,
       severity: SeveridadTicket.S4,
       reportedBy: "",
+      relatedTasks: [],
     },
   });
-  const [clientes, setClientes] = useState<Cliente[]>([]);
 
-  useEffect(() => {
-    fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setClientes(data);
-      });
-  }, []);
+  const mockTasks = [
+    { id: "1", name: "Tarea 1" },
+    { id: "2", name: "Tarea 2" },
+    { id: "3", name: "Tarea 3" },
+    { id: "4", name: "Tarea 4" },
+  ];
 
   //Todo: Consumir lista de tareas de endpoint de proyecto para asociar al ticket
 
   // Consulto los tareas disponibles para asignar a las tickets
+  //   useEffect(() => {
+  //     fetch("http://localhost:3001/recursos")
+  //       .then((res) => {
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         setRecursos(data);
+  //       });
+  //   }, []);
+
+  
+  // Consulto los tickets para cargar valores inciales y hacer un update
   //   useEffect(() => {
   //     fetch("http://localhost:3001/recursos")
   //       .then((res) => {
@@ -108,7 +125,7 @@ const CreateTicketModal = (props: Props) => {
               {...register("title", { required: true })}
               type="text"
               id="first_name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className={styles.inputStyle}
             />
             {errors.title && (
               <span className={styles.errorLabel}>Título es requerido</span>
@@ -116,14 +133,12 @@ const CreateTicketModal = (props: Props) => {
           </div>
 
           <div>
-            <label className={styles.modalFont}>
-              Descripción:
-            </label>
+            <label className={styles.modalFont}>Descripción:</label>
             <input
               {...register("description", { required: true })}
               type="text"
               id="first_name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className={styles.inputStyle}
             />
             {errors.description && (
               <span className={styles.errorLabel}>
@@ -132,15 +147,58 @@ const CreateTicketModal = (props: Props) => {
             )}
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label className={styles.modalFont}>
-                Estado:
-              </label>
-              <select
-                {...register("state")}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
+              <label className={styles.modalFont}>Reportado por cliente:</label>
+              <select {...register("reportedBy")} className={styles.inputStyle}>
+                {clientes.map((cliente) => (
+                  <option key={cliente.id} value={cliente.id}>
+                    {cliente["razon social"]}
+                  </option>
+                ))}
+              </select>
+              {errors.reportedBy && (
+                <span className={styles.errorLabel}>
+                  El cliente que reporta es requerido
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className={styles.modalFont}>Asociar Tareas:</label>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Select
+                    isMulti
+                    name="colors"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    options={mockTasks.map((task) => ({
+                      value: task.id,
+                      label: task.name,
+                    }))}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
+                name="relatedTasks"
+              />
+              {errors.relatedTasks && (
+                <span className={styles.errorLabel}>
+                  Tareas relacionadas al ticket es requerido
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className={styles.modalFont}>Estado:</label>
+              <select {...register("state")} className={styles.inputStyle}>
                 {Object.values(EstadoTicket).map((estado) => (
                   <option key={estado} value={estado}>
                     {estado}
@@ -153,13 +211,8 @@ const CreateTicketModal = (props: Props) => {
             </div>
 
             <div>
-              <label className={styles.modalFont}>
-                Severidad:
-              </label>
-              <select
-                {...register("severity")}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
+              <label className={styles.modalFont}>Severidad:</label>
+              <select {...register("severity")} className={styles.inputStyle}>
                 {Object.values(SeveridadTicket).map((estado) => (
                   <option key={estado} value={estado}>
                     {estado}
@@ -172,37 +225,17 @@ const CreateTicketModal = (props: Props) => {
                 </span>
               )}
             </div>
-
-            <div>
-              <label className={styles.modalFont}>
-                Reportado por cliente:
-              </label>
-              <select
-                {...register("reportedBy")}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                {clientes.map((cliente) => (
-                  <option key={cliente.id} value={cliente.id}>
-                    {cliente.razon_social}
-                  </option>
-                ))}
-              </select>
-              {errors.reportedBy && (
-                <span className={styles.errorLabel}>
-                  El cliente que reporta es requerido
-                </span>
-              )}
-            </div>
           </div>
         </form>
 
         <div
-          className="flex flex-row gap-10"
+          className={styles.modalFooter}
           style={{ justifyContent: "flex-end" }}
         >
           <button
             type="submit"
-            className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md"
+            className={styles.saveButton}
+            onClick={handleSubmit(onSubmit)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -221,10 +254,7 @@ const CreateTicketModal = (props: Props) => {
             Guardar Ticket
           </button>
 
-          <button
-            onClick={onClose}
-            className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md"
-          >
+          <button onClick={onClose} className={styles.cancelButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -247,4 +277,4 @@ const CreateTicketModal = (props: Props) => {
   );
 };
 
-export default CreateTicketModal;
+export default TicketModal;

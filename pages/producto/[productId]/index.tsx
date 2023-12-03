@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { VersionProducto } from "@/types/types";
 import ProductVersionGridRow from "@/components/ProductVersionGridRow";
 import { useRouter } from "next/router";
+import styles from "@/styles/producto.module.css";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -53,15 +54,16 @@ export default function VersionesDeProducto() {
         fechaModificacion: new Date("2022-09-01"),
       },
     ]);
-  }
-  , [productoId]);
+  }, [productoId]);
 
   return (
-    <div className="container max-w-7xl mx-auto mt-8">
+    <div className={styles.tableDataContainer}>
       <div className="mb-4">
-        <h1 className="text-3xl font-bold decoration-gray-400">Versiones de Producto</h1>
+        <h1 className="text-3xl font-bold decoration-gray-400">
+          Versiones de Producto
+        </h1>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col" style={{width: "100%"}}>
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
@@ -76,7 +78,11 @@ export default function VersionesDeProducto() {
 
               <tbody>
                 {list.map((version) => (
-                  <ProductVersionGridRow key={version.id} version={version} productId={productoId}/>
+                  <ProductVersionGridRow
+                    key={version.id}
+                    version={version}
+                    productId={productoId}
+                  />
                 ))}
               </tbody>
             </table>

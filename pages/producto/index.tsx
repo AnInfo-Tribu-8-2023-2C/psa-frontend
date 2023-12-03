@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ProductGridRow from "@/components/ProductGridRow";
 import { Producto } from "@/types/types";
+import { axiosInstance } from "@/api/axios";
+import styles from "@/styles/producto.module.css"
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -13,51 +15,25 @@ const HeaderItem = ({ title }: { title: string }) => {
 export default function Productos() {
   const [list, setList] = useState<Producto[]>([]);
 
-  // useEffect(() => {
-  //   fetch(
-  //     "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
-  //   )
-  //     .then((res) => {
-  //       console.log(res);
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setList(data);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    setList([
-      {
-        id: "1",
-        nombre: "CyberSynth Integration Platform",
-        versiones: 4,
-      },
-      {
-        id: "2",
-        nombre: "CodeHarbor for Digital Solutions",
-        versiones: 4,
-      },
-      {
-        id: "3",
-        nombre: "DataFuse Nexus",
-        versiones: 4,
-      },
-      {
-        id: "4",
-        nombre: "TechNexa Innovations",
-        versiones: 4,
-      },
-    ]);
-  }
-  , []);
+    axiosInstance.get('/products')
+      .then(response => {
+        // Handle the response
+        console.log("Products data: ", response.data);
+        setList(response.data);
+      })
+      .catch(error => {
+        // Handle the error
+        console.error(error);
+      });
+  }, []);
 
   return (
-    <div className="container max-w-7xl mx-auto mt-8">
+    <div className={styles.tableDataContainer}>
       <div className="mb-4">
         <h1 className="text-3xl font-bold decoration-gray-400">Productos</h1>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col" style={{width: "100%"}}>
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
@@ -65,7 +41,7 @@ export default function Productos() {
                 <tr>
                   <HeaderItem title="ID" />
                   <HeaderItem title="Producto" />
-                  <HeaderItem title="Versiones" />
+                  <HeaderItem title="Descripción" />
                   <HeaderItem title="" />
                 </tr>
               </thead>

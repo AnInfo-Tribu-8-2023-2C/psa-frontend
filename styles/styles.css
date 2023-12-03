@@ -6,7 +6,6 @@
 }
 
 .header {
-  background-color: #93c5fd;
   grid-area: 1 / 1 / 2 / 3;
 }
 
@@ -19,6 +18,5 @@
 }
 
 .footer {
-  background-color: #92400e;
   grid-area: 3 / 2 / 4 / 3;
 }
