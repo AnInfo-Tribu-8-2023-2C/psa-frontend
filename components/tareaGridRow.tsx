@@ -10,10 +10,20 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
     
     const [editarTareaModal, setEditarTareaModal] = useState(false);
     const [datos,setDatos] = useState({});
-    const editarDatos = (data:any) => {
+    // const editarDatos = (data:any) => {
+    //     setDatos(data);
+    //     fetch(`http://localhost:8080/tarea/${tarea.id}`,{
+    //         method: 'PUT',
+    //         body: JSON.stringify(data),
+    //         headers: {'Content-type' : 'Application/json'}
+    //     });
+    //     window.location.reload();
+    // }
+
+    const editarDatos = (data:any, id:any) => {
         setDatos(data);
-        fetch(`http://localhost:8080/tarea/${tarea.id}`,{
-            method: 'PUT',
+        fetch(`http://localhost:8080/tarea/${id}/estado`,{
+            method: 'PATCH',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
         });

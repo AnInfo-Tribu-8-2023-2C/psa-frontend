@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
 
-const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any) => void;proyecto:any;children:any}) => {
+const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any, id:any) => void;proyecto:any;children:any}) => {
     
     const [recursos,setRecursos] = useState([])
     const [id,setId] = useState(proyecto['id'])
@@ -84,17 +84,18 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                     onChange={(event)=>{setEstado(event.target.value)}} value={estado}>
-                    <option value="Iniciado">Iniciado</option>
-                    <option value="En Proceso">En Proceso</option>
-                    <option value="Bloqueado">Bloqueado</option>                
+                    <option value="NO_INICIADO">NO INICIADO</option>
+                    <option value="EN_PROCESO">EN PROCESO</option>
+                    <option value="FINALIZADO">FINALIZADO</option>                
                 </select>
             </div> 
         </div><br/>
         
         <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div className='input-group mb-3' >
-                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' id='inputGroup-sizing-defult'>Fecha de Inicio:</label>
+                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' id='inputGroup-sizing-defult'>Fecha de creación:</label>
                 <input 
+                disabled = {true}
                 onChange={(event)=>{setFechaIni(event.target.value)}}
                 type='date' className='datepicker bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'/>
             </div>        
@@ -111,7 +112,8 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        editarDatos({Id:id, Nombre: nombre, Descripcion: descripcion,Lider: lider,Estado: estado, FechaIni: fechaIni,FechaFin: fechaFin});
+                        // editarDatos({Id:id, Nombre: nombre, Descripcion: descripcion,Lider: lider,Estado: estado, FechaIni: fechaIni,FechaFin: fechaFin});
+                        editarDatos({estado: estado}, id);
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

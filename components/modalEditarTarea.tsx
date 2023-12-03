@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
 
-const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos : any) => void ; tarea:any; idProyecto: any; children: any }) => {
+const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos : any, tarea:any) => void ; tarea:any; idProyecto: any; children: any }) => {
     
     const [recursos,setRecursos] = useState([]);
     const [id,setId] = useState(tarea['id']);
@@ -100,10 +100,10 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
                         value={estado}
                         onChange={(event)=>{setEstado(event.target.value)}}>
                         <option value="...">...</option>
-                        <option value="Iniciado">Iniciado</option>
-                        <option value="En Proceso">En Proceso</option>
-                        <option value="Bloqueado">Bloqueado</option>  
-                        <option value="Finalizado">Finalizada</option>              
+                    <option value="NO_INICIADO">NO INICIADO</option>
+                    <option value="EN_PROCESO">EN PROCESO</option>
+                    <option value="FINALIZADO">FINALIZADO</option>
+                    <option value="BLOQUEADO">BLOQUEADO</option>
                     </select>
                 </div> 
             </div><br/>
@@ -119,7 +119,8 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        editarDatos({Nombre: nombre, Descripcion: descripcion,FechaIni: fechaIni,Estado: estado, Tecnico: tecnico ,HorasCalculadas: horasCalculadas,Proyecto: idProyecto,Id: id});
+//                        editarDatos({Nombre: nombre, Descripcion: descripcion,FechaIni: fechaIni,Estado: estado, Tecnico: tecnico ,HorasCalculadas: horasCalculadas,Proyecto: idProyecto,Id: id});
+                        editarDatos({estado: estado}, tarea = id);
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -20,15 +20,15 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
     const [datos,setDatos] = useState({});
 
     const BorrarProyecto = (proyecto:any) => {
-        fetch(`http://localhost:3001/deleteProyecto/${proyecto.id}`,{ method: 'DELETE'});
+        fetch(`http://localhost:8080/proyecto/${proyecto.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 
 
-    const editarDatos = (data:any) => {
+    const editarDatos = (data:any, id:any) => {
         setDatos(data);
-        fetch("http://localhost:3001/proyecto",{
-            method: 'PUT',
+        fetch(`http://localhost:8080/proyecto/${id}/estado`,{
+            method: 'PATCH',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
         });
