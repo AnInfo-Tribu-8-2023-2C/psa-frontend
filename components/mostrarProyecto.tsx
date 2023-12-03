@@ -5,10 +5,10 @@ import ProgressBar from "./progressBar";
 export default function MostrarProyecto( { proyecto,Tareas} : {proyecto: any; Tareas:any} ){
       
     const cantidadTareas = Tareas.length;
-    const iniciados = Tareas.filter((objeto : any) => objeto['estado'] === 'Iniciado').length;
-    const enProgreso = Tareas.filter((objeto : any) => objeto['estado'] === 'En Proceso').length;
-    const bloqueado = Tareas.filter((objeto : any) => objeto['estado'] === 'Bloqueado').length;
-    const finalizado = Tareas.filter((objeto : any) => objeto['estado'] === 'Finalizado').length;
+    const iniciados = Tareas.filter((objeto : any) => objeto['estado'] === 'NO_INICIADO').length;
+    const enProgreso = Tareas.filter((objeto : any) => objeto['estado'] === 'EN_PROCESO').length;
+    const bloqueado = Tareas.filter((objeto : any) => objeto['estado'] === 'BLOQUEADO').length;
+    const finalizado = Tareas.filter((objeto : any) => objeto['estado'] === 'FINALIZADO').length;
     
     return (
         <div className={styles.cajaProyecto}>
@@ -30,7 +30,7 @@ export default function MostrarProyecto( { proyecto,Tareas} : {proyecto: any; Ta
                 </div>
 
                 <div className='flex'>
-                    <div className="w-40 ">Tareas en Iniciadas: {iniciados} </div>
+                    <div className="w-40 ">Tareas no iniciadas: {iniciados} </div>
                     <div className="flex-grow "><ProgressBar totalTasks={cantidadTareas} completedTasks={iniciados}/> </div>
                 </div>
                 

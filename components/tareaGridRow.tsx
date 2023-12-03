@@ -44,6 +44,12 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
         window.location.reload();
     } 
 
+    const ColaboradorIsNull = (tarea : any) => {
+        if (tarea['colaborador'] === null)
+            return "No asignado"
+        return tarea['colaborador']['nombre'] + " " + tarea['colaborador']['apellido']
+    }
+
     return (
         <tr key={`${tarea['id']}`}>
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -55,7 +61,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{tarea['colaborador']}</div>
+                <div className="text-sm leading-5 text-gray-900">{ColaboradorIsNull(tarea)}</div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
