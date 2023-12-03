@@ -21,7 +21,7 @@ export default function Tareas({id}:{id:any}) {
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:3001/tarea", {
+        fetch("http://localhost:8080/tarea", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -32,7 +32,7 @@ export default function Tareas({id}:{id:any}) {
     //const {id} = router.query;
 
     useEffect(() => {
-        fetch(`http://localhost:3001/proyecto/${id}`)
+        fetch(`http://localhost:8080/proyecto/${id}`)
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -44,7 +44,7 @@ export default function Tareas({id}:{id:any}) {
 
 
     useEffect(() => {
-        fetch(`http://localhost:3001/proyectoTareas/${id}`)
+        fetch(`http://localhost:8080/proyecto/${id}/tareas`)
             .then((res) => {
                 console.log(res)
                 return res.json()

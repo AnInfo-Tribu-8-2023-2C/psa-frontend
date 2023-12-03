@@ -18,7 +18,7 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("http://localhost:3001/recursos")
+        fetch("http://localhost:8080/colaboradores")
             .then((res) => {
                 return res.json()
             })

@@ -15,7 +15,7 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
       
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("http://localhost:3001/recursos")
+        fetch("http://localhost:8080/colaboradores")
             .then((res) => {
                 return res.json()
             })
