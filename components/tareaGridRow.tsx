@@ -55,7 +55,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{tarea['tecnico']}</div>
+                <div className="text-sm leading-5 text-gray-900">{tarea['colaborador']}</div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -63,11 +63,11 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"> <FormatDate dateString={tarea['fechaIni']}/></div>
+                <div className="text-sm leading-5 text-gray-900"> <FormatDate dateString={tarea['fechaCreacion']}/></div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{tarea['horasCalculadas']}</div>
+                <div className="text-sm leading-5 text-gray-900">{}</div>
             </td>
 
             

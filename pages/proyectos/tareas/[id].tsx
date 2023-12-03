@@ -38,7 +38,7 @@ export default function Tareas({id}:{id:any}) {
                 return res.json()
             })
             .then((data) => {
-                setProyecto(data[0])
+                setProyecto(data)
             })
     }, [])
 
