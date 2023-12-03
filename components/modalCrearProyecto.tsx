@@ -8,7 +8,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [lider, setLider] = useState("");
-    const [estado, setEstado] = useState("");
+    const [estado, setEstado] = useState("NO_INICIADO");
     const [fechaIni, setFechaIni] = useState('');
     const [fechaFin, setFechaFin] = useState('');
 
@@ -75,9 +75,9 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                     onChange={(event)=>{setEstado(event.target.value)}}>
-                    <option value="Iniciado">Iniciado</option>
-                    <option value="En Proceso">En Proceso</option>
-                    <option value="Bloqueado">Bloqueado</option>                
+                    <option value="NO_INICIADO">NO INICIADO</option>
+                    <option value="EN_PROCESO">EN PROCESO</option>
+                    <option value="FINALIZADO">FINALIZADO</option>                
                 </select>
             </div> 
         </div><br/>
@@ -102,7 +102,8 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        guardarDatos({Nombre: nombre, Descripcion: descripcion,Lider: lider,Estado: estado, FechaIni: fechaIni,FechaFin: fechaFin});
+                        guardarDatos({nombre: nombre, descripcion: descripcion, colaborador_id: '1', estado: estado, fechaCreacion: fechaIni,
+                        fechaFinalizacion: fechaFin});
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

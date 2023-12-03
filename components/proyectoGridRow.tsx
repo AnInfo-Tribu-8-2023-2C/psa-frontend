@@ -4,6 +4,7 @@ import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalEditarProyecto from "./modalEditarProyecto";
 import FormatDate from "./formatDate";
+import IsLeaderNull from "./isLeaderNull";
 
 export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
 
@@ -45,7 +46,7 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{proyecto['lider']}</div>
+                <div className="text-sm leading-5 text-gray-900"><IsLeaderNull lider = {proyecto['lider']}/></div>
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -53,11 +54,11 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaIni']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaCreacion']}/></div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFin']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFinalizacion']}/></div>
             </td>
 
             

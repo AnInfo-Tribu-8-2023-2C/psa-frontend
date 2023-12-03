@@ -12,7 +12,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
     const [datos,setDatos] = useState({});
     const editarDatos = (data:any) => {
         setDatos(data);
-        fetch("http://localhost:3001/tarea",{
+        fetch(`http://localhost:8080/tarea/${tarea.id}`,{
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
@@ -29,7 +29,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
     })
 
     const BorrarTarea = (tarea:any) => {
-        fetch(`http://localhost:3001/deleteTarea/${tarea.id}`,{ method: 'DELETE'});
+        fetch(`http://localhost:8080/tarea/${tarea.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 

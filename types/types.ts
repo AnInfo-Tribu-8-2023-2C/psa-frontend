@@ -14,10 +14,10 @@ export interface Proyecto {
   id: string
   nombre: string
   descripcion: string
-  lider: string
+  lider: any
   estado: string
-  fechaIni: Date
-  fechaFin: Date
+  fechaCreacion: Date
+  fechaFinalizacion: Date
 }
 
 export interface Tarea {

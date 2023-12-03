@@ -68,7 +68,7 @@ export default function Proyectos() {
                                     <HeaderItem title="Lider" />
                                     <HeaderItem title="Estado" />
                                     <HeaderItem title="Fecha Inicio" />
-                                    <HeaderItem title="Fecha Finalicación" />
+                                    <HeaderItem title="Fecha Finalización" />
                                     <HeaderItem title="Acciones" />
                                 </tr>
                                 </thead>
