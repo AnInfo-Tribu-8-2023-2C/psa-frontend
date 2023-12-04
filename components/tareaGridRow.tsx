@@ -38,8 +38,8 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
         todo: {}
     })
 
-    const BorrarTarea = (tarea:any) => {
-        fetch(`https://psa-backend-projectos.onrender.com/tarea/${tarea.id}`,{ method: 'DELETE'});
+    const BorrarTarea = async (tarea:any) => {
+        await fetch(`https://psa-backend-projectos.onrender.com/tarea/${tarea.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     }

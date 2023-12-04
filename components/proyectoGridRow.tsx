@@ -19,9 +19,9 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
     const [editarProyectoModal, setEditarProyectoModal] = useState(false);
     const [datos,setDatos] = useState({});
 
-    const BorrarProyecto = (proyecto:any) => {
+    const BorrarProyecto = async (proyecto:any) => {
         console.log(proyecto.id)
-        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${proyecto.id}`,{ method: 'DELETE'});
+        await fetch(`https://psa-backend-projectos.onrender.com/proyecto/${proyecto.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 
