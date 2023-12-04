@@ -4,6 +4,8 @@ import MostrarProyecto from "@/components/mostrarProyecto";
 import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalCrearTarea from "@/components/modalCrearTarea";
+import { Cantora_One } from "next/font/google";
+import KanbanBoard from '@/components/kanban/tablero';
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -15,12 +17,13 @@ export default function Tareas({id}:{id:any}) {
     const [datos, setDatos] = useState({});
 
     const router = useRouter();
-
-    const [crearTareaModal, setCrearTareaModal] = useState(false);
+    const [textFilter,setTextFilter] = useState('');
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState('Todos');
+    const [crearTareaModal, setCrearTareaModal] = useState(false);       
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:3001/tarea", {
+        fetch("https://psa-backend-projectos.onrender.com/tarea", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -31,18 +34,19 @@ export default function Tareas({id}:{id:any}) {
     //const {id} = router.query;
 
     useEffect(() => {
-        fetch(`http://localhost:3001/proyecto/${id}`)
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}`)
             .then((res) => {
                 console.log(res)
                 return res.json()
             })
             .then((data) => {
-                setProyecto(data[0])
+                setProyecto(data)
             })
     }, [])
 
+
     useEffect(() => {
-        fetch(`http://localhost:3001/proyectoTareas/${id}`)
+        fetch(`https://psa-backend-projectos.onrender.com/tareas`)
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -52,8 +56,9 @@ export default function Tareas({id}:{id:any}) {
             })
     }, []);
 
-    const [contadorTareas, setContadorTareas] = useState(0);
-
+    const tareasProyecto = tareas.filter((objeto: any) => objeto['proyecto'] !== null).filter((objeto : any) => objeto['proyecto']['id'] == id);
+    const tareasFiltradas = tareasProyecto.filter((objeto : any) => objeto['nombre'].toLowerCase().includes(textFilter.toLowerCase()));
+    const tareasSelects = (estadoSeleccionado === 'Todos' ) ? tareasFiltradas : tareasFiltradas.filter((objeto : any) => (objeto.estado === estadoSeleccionado)); 
 
     return (
         <>
@@ -61,12 +66,14 @@ export default function Tareas({id}:{id:any}) {
 
             <div className="container max-w-7xl mx-auto mt-8">
                 <div className="mb-4">
-                    <h1 className="text-3xl font-bold decoration-gray-400">Tareas</h1>
+                    <h1 className="text-3xl font-bold decoration-gray-400">Proyecto: {id} </h1>
+                    <h1 className="text-3xl font-bold decoration-gray-400">Listado de Tareas</h1>
                     <br/>
                     <hr/>
                 </div>
 
-                <MostrarProyecto proyecto={proyecto} />
+                <MostrarProyecto proyecto={proyecto}  Tareas={tareasProyecto}/>
+
 
                 <div className="mb-4">
                     <button 
@@ -81,6 +88,26 @@ export default function Tareas({id}:{id:any}) {
                         <button onClick={() => setCrearTareaModal(false)}>Guardar</button>
                     </ModalCrearTarea>
                 </div>
+
+                <div className='space-x-4 '>
+                   <label >Filtrar por estado: </label>
+                    <select  className='text-gray-600 border border-gray-300 rounded outline-infigo-700 ' onChange={(e) => setEstadoSeleccionado(e.target.value)}>
+                        <option value="Todos">Todos</option>
+                        <option value="No iniciado">No iniciado</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Bloqueado">Bloqueado</option>
+                        <option value="Finalizado">Finalizado</option>                
+                    </select>
+                            
+                    
+                    <label >Filtrar tarea por nombre de tarea: </label>
+                    <input
+                    onChange={(e)=>(setTextFilter(e.target.value) )}
+                    type='text'
+                    className='text-gray-600 border border-gray-300 rounded outline-infigo-700'
+                    placeholder="Buscar..."/>
+                </div>
+      
 
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -99,14 +126,17 @@ export default function Tareas({id}:{id:any}) {
                                 </thead>
 
                                 <tbody>                                
-                                {tareas.map((tarea) => (
-                                    <TareaGridRow key={tarea['id']} tarea={tarea} />
+                                {tareasSelects.map((tarea) => (
+                                    <TareaGridRow key={tarea['id']} tarea={tarea} idProyecto={id} />
                                 ))}    
 
 
                                 </tbody>
                             </table>
                         </div>
+                         </div>
+                        <KanbanBoard tasks={tareasProyecto}/>
+                    <div>
                     </div>
                 </div>
             </div>

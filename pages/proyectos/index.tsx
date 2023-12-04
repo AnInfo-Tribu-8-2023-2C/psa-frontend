@@ -14,7 +14,7 @@ export default function Proyectos() {
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:3001/proyecto", {
+        fetch("https://psa-backend-projectos.onrender.com/proyecto", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -23,7 +23,7 @@ export default function Proyectos() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:3001/proyectos")
+        fetch("https://psa-backend-projectos.onrender.com/proyectos")
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -67,8 +67,8 @@ export default function Proyectos() {
                                     <HeaderItem title="Nombre" />
                                     <HeaderItem title="Lider" />
                                     <HeaderItem title="Estado" />
-                                    <HeaderItem title="Fecha Inicio" />
-                                    <HeaderItem title="Fecha Finalicación" />
+                                    <HeaderItem title="Fecha de creación" />
+                                    <HeaderItem title="Fecha Finalización" />
                                     <HeaderItem title="Acciones" />
                                 </tr>
                                 </thead>

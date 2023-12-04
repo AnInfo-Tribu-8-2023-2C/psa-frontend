@@ -4,6 +4,7 @@ import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalEditarProyecto from "./modalEditarProyecto";
 import FormatDate from "./formatDate";
+import IsLeaderNull from "./isLeaderNull";
 
 export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
 
@@ -19,14 +20,15 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
     const [datos,setDatos] = useState({});
 
     const BorrarProyecto = (proyecto:any) => {
-        fetch(`http://localhost:3001/deleteProyecto/${proyecto.id}`,{ method: 'DELETE'});
+        console.log(proyecto.id)
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${proyecto.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 
 
     const editarDatos = (data:any) => {
         setDatos(data);
-        fetch("http://localhost:3001/proyecto",{
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto`,{
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
@@ -45,7 +47,7 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{proyecto['lider']}</div>
+                <div className="text-sm leading-5 text-gray-900"><IsLeaderNull lider = {proyecto['lider']}/></div>
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -53,11 +55,11 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
             </td>
             
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaIni']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaCreacion']}/></div>
             </td>
 
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFin']}/></div>
+                <div className="text-sm leading-5 text-gray-900"><FormatDate dateString={proyecto['fechaFinalizacion']}/></div>
             </td>
 
             
