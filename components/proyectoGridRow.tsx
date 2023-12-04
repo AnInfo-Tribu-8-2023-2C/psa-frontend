@@ -20,14 +20,14 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
     const [datos,setDatos] = useState({});
 
     const BorrarProyecto = (proyecto:any) => {
-        fetch(`http://localhost:8080/proyecto/${proyecto.id}`,{ method: 'DELETE'});
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${proyecto.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 
 
     const editarDatos = (data:any, id:any) => {
         setDatos(data);
-        fetch(`http://localhost:8080/proyecto/${id}/estado`,{
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}/estado`,{
             method: 'PATCH',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}

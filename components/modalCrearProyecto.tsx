@@ -15,7 +15,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("http://localhost:8080/colaboradores")
+        fetch("https://psa-backend-projectos.onrender.com/colaboradores")
             .then((res) => {
                 return res.json()
             })
@@ -65,7 +65,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
                     <option>...</option>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['lejajo']} value={recurso['Nombre']+' '+recurso['Apellido']}>{recurso['Nombre']} {recurso['Apellido']}</option>
+                            <option key={recurso['id']} value={recurso['id']}>{recurso['nombre']} {recurso['apellido']}</option>
                         ))
                     }
                 </select>
@@ -102,7 +102,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        guardarDatos({nombre: nombre, descripcion: descripcion, colaborador_id: '1', estado: estado, fechaCreacion: fechaIni,
+                        guardarDatos({nombre: nombre, descripcion: descripcion, lider: lider, estado: estado, fechaCreacion: fechaIni,
                         fechaFinalizacion: fechaFin});
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">

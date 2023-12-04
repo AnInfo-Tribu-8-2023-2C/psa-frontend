@@ -22,7 +22,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
 
     const editarDatos = (data:any, id:any) => {
         setDatos(data);
-        fetch(`http://localhost:8080/tarea/${id}/estado`,{
+        fetch(`https://psa-backend-projectos.onrender.com/tarea/${id}/estado`,{
             method: 'PATCH',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
@@ -39,7 +39,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
     })
 
     const BorrarTarea = (tarea:any) => {
-        fetch(`http://localhost:8080/tarea/${tarea.id}`,{ method: 'DELETE'});
+        fetch(`https://psa-backend-projectos.onrender.com/tarea/${tarea.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
     } 

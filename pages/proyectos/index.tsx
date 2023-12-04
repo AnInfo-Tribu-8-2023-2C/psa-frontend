@@ -14,7 +14,7 @@ export default function Proyectos() {
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:8080/proyecto", {
+        fetch("https://psa-backend-projectos.onrender.com/proyecto", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -23,7 +23,7 @@ export default function Proyectos() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:8080/proyectos")
+        fetch("https://psa-backend-projectos.onrender.com/proyectos")
             .then((res) => {
                 console.log(res)
                 return res.json()

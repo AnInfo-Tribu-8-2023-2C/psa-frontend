@@ -21,7 +21,7 @@ export default function Tareas({id}:{id:any}) {
 
     const guardarDatos = (datos: any) => {
         setDatos(datos);
-        fetch("http://localhost:8080/tarea", {
+        fetch("https://psa-backend-projectos.onrender.com/tarea", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
@@ -32,7 +32,7 @@ export default function Tareas({id}:{id:any}) {
     //const {id} = router.query;
 
     useEffect(() => {
-        fetch(`http://localhost:8080/proyecto/${id}`)
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}`)
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -44,7 +44,7 @@ export default function Tareas({id}:{id:any}) {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8080/proyecto/${id}/tareas`)
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}/tareas`)
             .then((res) => {
                 console.log(res)
                 return res.json()
