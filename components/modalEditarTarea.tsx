@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
+import { ta } from 'date-fns/locale';
 
 const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos : any, tarea:any) => void ; tarea:any; idProyecto: any; children: any }) => {
     
+    const diccionarioEstado = {
+        "No iniciado": "NO_INICIADO",
+        "En proceso": "EN_PROCESO",
+        "Finalizado": "FINALIZADO",
+        "Bloqueado": "BLOQUEADO",
+    }
+
     const [recursos,setRecursos] = useState([]);
     const [id,setId] = useState(tarea['id']);
     const [nombre, setNombre] = useState(tarea['nombre']);
     const [descripcion, setDescripcion] = useState(tarea['descripcion']);
     const [fechaIni, setFechaIni] = useState(tarea['fechaCreacion']);
-    const [estado, setEstado] = useState(tarea['estado']);
-    const [tecnico, setTecnico] = useState(tarea['colaborador']);
+    const [estado, setEstado] = useState(diccionarioEstado[tarea['estado']]);
+    const [tecnico, setTecnico] = useState(tarea['colaborador'] === null ? null : tarea['colaborador']['id']);
     //const [horasCalculadas, setHorasCalculadas] = useState(tarea['horasCalculadas']);
     
       
@@ -87,10 +95,10 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
                     value={tecnico}
                     
                     onChange={(event)=>{setTecnico(event.target.value)}}>
-                        <option value={tarea['colaborador'] == null ? null : tarea['colaborador']}>...</option>
+                        <option value={tarea['colaborador'] == null ? null : tarea['colaborador']['id']}>...</option>
                         {
                             recursos.map( (recurso) => (
-                                <option key={recurso['lejajo']} value={recurso['Nombre']+' '+recurso['Apellido']}>{recurso['Nombre']} {recurso['Apellido']}</option>
+                                <option key={recurso['legajo']} value={recurso['legajo']}>{recurso['Nombre']} {recurso['Apellido']}</option>
                             ))
                         }
                     </select>
@@ -101,7 +109,6 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
                     <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                         value={estado}
                         onChange={(event)=>{setEstado(event.target.value)}}>
-                        <option value="...">...</option>
                     <option value="NO_INICIADO">NO INICIADO</option>
                     <option value="EN_PROCESO">EN PROCESO</option>
                     <option value="FINALIZADO">FINALIZADO</option>
@@ -115,7 +122,7 @@ const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,childre
                 <button 
                     onClick={()=> {
 //                        editarDatos({Nombre: nombre, Descripcion: descripcion,FechaIni: fechaIni,Estado: estado, Tecnico: tecnico ,HorasCalculadas: horasCalculadas,Proyecto: idProyecto,Id: id});
-                        editarDatos({id: id, nombre: nombre, descripcion: descripcion, estado: estado, fechaCreacion: fechaIni, colaborador: tecnico , proyecto: idProyecto}, tarea = id);
+                        editarDatos({id: id, nombre: nombre, descripcion: descripcion, estado: estado, fechaCreacion: fechaIni, colaboradorId: tecnico , proyectoId: idProyecto}, tarea = id);
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
