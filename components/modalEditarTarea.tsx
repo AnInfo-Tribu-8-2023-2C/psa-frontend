@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
-import { ta } from 'date-fns/locale';
 
 const ModalEditarTarea = ({isOpen, onClose, editarDatos,tarea,idProyecto,children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos : any, tarea:any) => void ; tarea:any; idProyecto: any; children: any }) => {
     
-    const diccionarioEstado = {
+    const diccionarioEstado : any = {
         "No iniciado": "NO_INICIADO",
         "En proceso": "EN_PROCESO",
         "Finalizado": "FINALIZADO",

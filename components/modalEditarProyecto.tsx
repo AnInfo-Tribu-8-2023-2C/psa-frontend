@@ -4,7 +4,7 @@ import IsLeaderNull from './isLeaderNull';
 
 const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any) => void;proyecto:any;children:any}) => {
     
-    const diccionarioEstado = {
+    const diccionarioEstado : any = {
         "No iniciado": "NO_INICIADO",
         "En proceso": "EN_PROCESO",
         "Finalizado": "FINALIZADO",
