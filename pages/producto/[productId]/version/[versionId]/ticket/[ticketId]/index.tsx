@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import TicketModal from "@/components/TicketModal";
 import { axiosInstance } from "@/api/axios";
 import TareaModal from "@/components/TareaModal";
-import { set } from "date-fns";
 
 const Ticket = () => {
   const router = useRouter();
@@ -179,7 +178,7 @@ const Ticket = () => {
         <div className={styles.ticketDataItem}>
           <h2 className={styles.ticketDataTitle}>Tareas asociadas:</h2>
           <ul className={styles.ticketDataListValue}>
-            {ticket &&
+            {ticket && ticket.tasks &&
               ticket.tasks.map(
                 (task) =>
                   task && (
