@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Cliente, TicketDeProducto, VersionProducto } from "@/types/types";
+import { Cliente, TicketDeProducto, Usuario, VersionProducto } from "@/types/types";
 import TicketGridRow from "@/components/TicketGridRow";
 import TicketModal from "@/components/TicketModal";
 import styles from "./versionTickets.module.css";
 import { axiosInstance } from "@/api/axios";
+import TareaModal from "@/components/TareaModal";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -19,14 +20,14 @@ export default function TicketsDeProducto() {
   const versionId = router.query.versionId as string;
   const productId = router.query.productId as string;
   const [list, setList] = useState<TicketDeProducto[]>([]);
+  const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [tasks, setTasks] = useState([]);
   const [productVersion, setProductVersion] = useState<VersionProducto>();
 
   const fetchClients = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes",  
+      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
     )
       .then((res) => {
         return res.json();
@@ -36,6 +37,8 @@ export default function TicketsDeProducto() {
         setClientes(data);
       });
   };
+
+  
 
   const loadProductVersion = () => {
     axiosInstance
@@ -107,7 +110,10 @@ export default function TicketsDeProducto() {
       >
         {"Tickets:"}
       </h2>
-      <div className="flex flex-col" style={{ width: "100%", maxHeight: "390px" }}>
+      <div
+        className="flex flex-col"
+        style={{ width: "100%", maxHeight: "390px" }}
+      >
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">

@@ -18,8 +18,6 @@ interface Props {
   tasks: any[];
   edit?: boolean;
   ticket?: TicketDeProducto;
-  loadProductVersion?: () => void;
-  loadTicket?: () => void;
 }
 
 interface TaskOption {

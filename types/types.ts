@@ -1,6 +1,6 @@
 export interface Usuario {
-  nombre: string
-  apellido: string
+  Nombre: string
+  Apellido: string
   legajo: number
 }
 

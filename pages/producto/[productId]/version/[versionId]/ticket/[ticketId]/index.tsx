@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import styles from "@/components/ticket.module.css";
 import {
   Cliente,
-  EstadoTicket,
-  SeveridadTicket,
   Tarea,
   TicketDeProducto,
+  Usuario,
 } from "@/types/types";
 import { useRouter } from "next/router";
 import TicketModal from "@/components/TicketModal";
 import { axiosInstance } from "@/api/axios";
+import TareaModal from "@/components/TareaModal";
 
 const Ticket = () => {
   const router = useRouter();
@@ -20,16 +20,46 @@ const Ticket = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [tasks, setTasks] = useState([]);
   const [ticket, setTicket] = useState<TicketDeProducto>();
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [proyectos, setProyectos] = useState<any[]>([]);
+  const [tareaModal, setTareaModal] = useState(false);
 
   const fetchClients = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes",
+      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
     )
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setClientes(data);
+      });
+  };
+
+  const fetchUsuarios = () => {
+    fetch(
+      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Usuarios data: ", data);
+        setUsuarios(data);
+      });
+  };
+
+  const loadProyects = () => {
+    axiosInstance
+      .get(`https://psa-backend-projectos.onrender.com/proyectos`)
+      .then((response) => {
+        // Handle the response
+        console.log("Proyects data: ", response.data);
+        setProyectos(response.data);
+      })
+      .catch((error) => {
+        // Handle the error
+        console.error(error);
       });
   };
 
@@ -52,7 +82,7 @@ const Ticket = () => {
           createdAt: response.data.createdAt,
           updatedAt: response.data.updatedAt,
           client: response.data.client,
-          tasks: tareas
+          tasks: tareas,
         });
       })
       .catch((error) => {
@@ -79,6 +109,11 @@ const Ticket = () => {
     fetchClients();
     // fetchTasks();
   }, [ticketId, modal]);
+
+  useEffect(() => {
+    fetchUsuarios();
+    loadProyects();
+  }, [tareaModal]);
 
   return (
     <div
@@ -127,9 +162,8 @@ const Ticket = () => {
         <div className={styles.ticketDataItem}>
           <h2 className={styles.ticketDataTitle}>Tareas asociadas:</h2>
           <ul className={styles.ticketDataListValue}>
-            {ticket && ticket.tasks.map((task) => (
-              <li key={task.id}>{task.nombre}</li>
-            ))}
+            {ticket &&
+              ticket.tasks.map((task) => <li key={task.id}>{task.nombre}</li>)}
           </ul>
         </div>
 
@@ -157,9 +191,13 @@ const Ticket = () => {
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", marginTop: "auto" }}>
+      <div style={{ display: "flex", marginTop: "auto", gap: "1rem" }}>
         <button className={styles.saveButton} onClick={() => setModal(true)}>
           Edit Ticket
+        </button>
+
+        <button className={styles.saveButton} onClick={() => setTareaModal(true)}>
+          Asociar nueva tarea
         </button>
       </div>
       <TicketModal
@@ -170,6 +208,12 @@ const Ticket = () => {
         tasks={tasks}
         edit={true}
         ticket={ticket}
+      />
+      <TareaModal
+        isOpen={tareaModal}
+        onClose={() => setTareaModal(false)}
+        usuarios={usuarios}
+        proyectos={proyectos}
       />
     </div>
   );
