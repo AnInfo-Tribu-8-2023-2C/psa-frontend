@@ -74,10 +74,10 @@ export enum EstadoTicket {
 }
 
 export enum EstadoTarea {
-  NO_INICIADO = 'NO INICIADO',
-  EN_PROCESO = 'EN PROCESO',
-  FINALIZADO = 'FINALIZADO',
-  BLOQUEADO = 'BLOQUEADO',
+  NO_INICIADO = 'No iniciado',
+  EN_PROCESO = 'En proceso',
+  FINALIZADO = 'Finalizado',
+  BLOQUEADO = 'Bloqueado',
 }
 
 export enum SeveridadTicket {

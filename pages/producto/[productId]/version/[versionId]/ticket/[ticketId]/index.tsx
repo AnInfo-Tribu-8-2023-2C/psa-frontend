@@ -1,7 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import styles from "@/components/ticket.module.css";
-import { Cliente, Tarea, TicketDeProducto, Usuario } from "@/types/types";
+import {
+  Cliente,
+  EstadoTarea,
+  Tarea,
+  TicketDeProducto,
+  Usuario,
+} from "@/types/types";
 import { useRouter } from "next/router";
 import TicketModal from "@/components/TicketModal";
 import { axiosInstance } from "@/api/axios";
@@ -66,11 +72,11 @@ const Ticket = () => {
         .get(`https://psa-backend-projectos.onrender.com/tarea/${id}`)
         .then((response) => {
           // Handle the response
-          if (response.data){
+          if (response.data) {
             tasks.push(response.data);
-          }else{
+          } else {
             console.log("No se encontró tarea con id: ", id);
-            tasks.push(null)
+            tasks.push(null);
           }
         })
         .catch((error) => {
@@ -103,6 +109,21 @@ const Ticket = () => {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const getStyleByState = (state: EstadoTarea) => {
+    switch (state) {
+      case EstadoTarea.EN_PROCESO:
+        return styles.enProceso;
+      case EstadoTarea.FINALIZADO:
+        return styles.finalizado;
+      case EstadoTarea.BLOQUEADO:
+        return styles.bloqueado;
+      case EstadoTarea.NO_INICIADO:
+        return styles.noIniciado;
+      default:
+        return styles.noIniciado;
+    }
   };
 
   useEffect(() => {
@@ -160,7 +181,17 @@ const Ticket = () => {
           <h2 className={styles.ticketDataTitle}>Tareas asociadas:</h2>
           <ul className={styles.ticketDataListValue}>
             {ticket &&
-              ticket.tasks.map((task) => task && <li key={task.id}>{task.nombre}</li>)}
+              ticket.tasks.map(
+                (task) =>
+                  task && (
+                    <li
+                      className={`${styles.taskItem} ${getStyleByState(
+                        task.estado
+                      )}`}
+                      key={task.id}
+                    >{`${task.nombre} - `} <span style={{fontWeight: "500", marginLeft: "5px"}}>{task.estado}</span></li>
+                  )
+              )}
           </ul>
         </div>
 

@@ -168,9 +168,40 @@
   margin: 0;
   gap: 0.5rem;
   flex-direction: column;
-  max-height: 6rem;
+  max-height: 8rem;
   overflow: auto;
   padding-left: 1rem;
+}
+
+.taskItem{
+  display:flex;
+  flex-direction: row;
+  min-height: 2rem;
+  padding: 0.3rem;
+  border-radius: 10px;
+  width: 700px;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+/* Estado "En Proceso" */
+.enProceso {
+  background-color: lightskyblue;
+}
+
+/* Estado "Bloqueado" */
+.bloqueado {
+  background-color: lightcoral; 
+}
+
+/* Estado "Finalizado" */
+.finalizado {
+  background-color: lightgreen;
+}
+
+/* Estado "No Iniciado" */
+.noIniciado {
+  background-color: lightgray; 
 }
 
 .tableDataContainer {
