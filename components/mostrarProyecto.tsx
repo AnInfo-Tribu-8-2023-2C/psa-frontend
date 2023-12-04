@@ -5,10 +5,10 @@ import ProgressBar from "./progressBar";
 export default function MostrarProyecto( { proyecto,Tareas} : {proyecto: any; Tareas:any} ){
       
     const cantidadTareas = Tareas.length;
-    const iniciados = Tareas.filter((objeto : any) => objeto['estado'] === 'NO_INICIADO').length;
-    const enProgreso = Tareas.filter((objeto : any) => objeto['estado'] === 'EN_PROCESO').length;
-    const bloqueado = Tareas.filter((objeto : any) => objeto['estado'] === 'BLOQUEADO').length;
-    const finalizado = Tareas.filter((objeto : any) => objeto['estado'] === 'FINALIZADO').length;
+    const iniciados = Tareas.filter((objeto : any) => objeto['estado'] === 'No iniciado').length;
+    const enProgreso = Tareas.filter((objeto : any) => objeto['estado'] === 'En proceso').length;
+    const bloqueado = Tareas.filter((objeto : any) => objeto['estado'] === 'Bloqueado').length;
+    const finalizado = Tareas.filter((objeto : any) => objeto['estado'] === 'Finalizado').length;
     
     return (
         <div className={styles.cajaProyecto}>

@@ -46,7 +46,7 @@ export default function Tareas({id}:{id:any}) {
 
 
     useEffect(() => {
-        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}/tareas`)
+        fetch(`https://psa-backend-projectos.onrender.com/tareas`)
             .then((res) => {
                 console.log(res)
                 return res.json()
@@ -56,7 +56,8 @@ export default function Tareas({id}:{id:any}) {
             })
     }, []);
 
-    const tareasFiltradas = tareas.filter((objeto : any) => objeto['nombre'].toLowerCase().includes(textFilter.toLowerCase()));
+    const tareasProyecto = tareas.filter((objeto: any) => objeto['proyecto'] !== null).filter((objeto : any) => objeto['proyecto']['id'] == id);
+    const tareasFiltradas = tareasProyecto.filter((objeto : any) => objeto['nombre'].toLowerCase().includes(textFilter.toLowerCase()));
     const tareasSelects = (estadoSeleccionado === 'Todos' ) ? tareasFiltradas : tareasFiltradas.filter((objeto : any) => (objeto.estado === estadoSeleccionado)); 
 
     return (
@@ -71,7 +72,7 @@ export default function Tareas({id}:{id:any}) {
                     <hr/>
                 </div>
 
-                <MostrarProyecto proyecto={proyecto}  Tareas={tareas}/>
+                <MostrarProyecto proyecto={proyecto}  Tareas={tareasProyecto}/>
 
 
                 <div className="mb-4">
@@ -92,9 +93,10 @@ export default function Tareas({id}:{id:any}) {
                    <label >Filtrar por estado: </label>
                     <select  className='text-gray-600 border border-gray-300 rounded outline-infigo-700 ' onChange={(e) => setEstadoSeleccionado(e.target.value)}>
                         <option value="Todos">Todos</option>
-                        <option value="Iniciado">Iniciado</option>
-                        <option value="En Proceso">En Proceso</option>
-                        <option value="Bloqueado">Bloqueado</option>                
+                        <option value="No iniciado">No iniciado</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Bloqueado">Bloqueado</option>
+                        <option value="Finalizado">Finalizado</option>                
                     </select>
                             
                     
@@ -124,7 +126,7 @@ export default function Tareas({id}:{id:any}) {
                                 </thead>
 
                                 <tbody>                                
-                                {tareas.map((tarea) => (
+                                {tareasSelects.map((tarea) => (
                                     <TareaGridRow key={tarea['id']} tarea={tarea} idProyecto={id} />
                                 ))}    
 
@@ -133,7 +135,7 @@ export default function Tareas({id}:{id:any}) {
                             </table>
                         </div>
                          </div>
-                        <KanbanBoard tasks={tareas}/>
+                        <KanbanBoard tasks={tareasProyecto}/>
                     <div>
                     </div>
                 </div>

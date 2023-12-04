@@ -1,6 +1,5 @@
 // pages/index.js
 import { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TarjetaTarea from '../tarjetaTarea';
 
 
@@ -8,8 +7,8 @@ const KanbanBoard = ({ tasks }:{tasks:any}) => {
   
   // Organize tasks into columns based on their 'estado' property
   
-  const iniciados = tasks.filter((objeto : any) => objeto['estado'] === 'Iniciado');
-  const enProgreso = tasks.filter((objeto : any) => objeto['estado'] === 'En Proceso');
+  const iniciados = tasks.filter((objeto : any) => objeto['estado'] === 'No iniciado');
+  const enProgreso = tasks.filter((objeto : any) => objeto['estado'] === 'En proceso');
   const bloqueado = tasks.filter((objeto : any) => objeto['estado'] === 'Bloqueado');
   const finalizado = tasks.filter((objeto : any) => objeto['estado'] === 'Finalizado');
 
