@@ -163,6 +163,7 @@ export default function TicketsDeProducto() {
         onClose={() => setModal(false)}
         productVersionId={versionId}
         clientes={clientes}
+        tasks={tasks}
       />
     </div>
   );

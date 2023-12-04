@@ -15,6 +15,7 @@ interface Props {
   onClose: () => void;
   productVersionId: string;
   clientes: Cliente[];
+  tasks: any[];
   edit?: boolean;
   ticket?: TicketDeProducto;
 }
@@ -34,7 +35,7 @@ interface Inputs {
 }
 
 const TicketModal = (props: Props) => {
-  const { isOpen, onClose, productVersionId, clientes, edit, ticket } =
+  const { isOpen, onClose, productVersionId, clientes, tasks, edit, ticket } =
     props;
   const {
     register,
@@ -233,7 +234,7 @@ const TicketModal = (props: Props) => {
                     onChange={onChange}
                     value={value}
                     onBlur={onBlur}
-                    options={ticket?.tasks.map((task) => ({
+                    options={tasks.map((task) => ({
                       value: task.id,
                       label: task.nombre,
                     }))}

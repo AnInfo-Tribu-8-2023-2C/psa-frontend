@@ -23,6 +23,7 @@ const Ticket = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [proyectos, setProyectos] = useState<any[]>([]);
   const [tareaModal, setTareaModal] = useState(false);
+  const [tasks, setTasks] = useState<Tarea[]>([]);
 
   const fetchClients = () => {
     fetch(
@@ -46,6 +47,20 @@ const Ticket = () => {
       .then((data) => {
         console.log("Usuarios data: ", data);
         setUsuarios(data);
+      });
+  };
+
+  const loadTasks = () => {
+    axiosInstance
+      .get(`https://psa-backend-projectos.onrender.com/tareas`)
+      .then((response) => {
+        // Handle the response
+        console.log("Tasks data: ", response.data);
+        setTasks(response.data);
+      })
+      .catch((error) => {
+        // Handle the error
+        console.error(error);
       });
   };
 
@@ -126,6 +141,7 @@ const Ticket = () => {
 
   useEffect(() => {
     fetchUsuarios();
+    loadTasks();
     loadProyects();
     loadTicket();
     fetchClients();
@@ -236,6 +252,7 @@ const Ticket = () => {
         clientes={clientes}
         edit={true}
         ticket={ticket}
+        tasks={tasks}
       />
       <TareaModal
         isOpen={tareaModal}
