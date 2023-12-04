@@ -234,7 +234,6 @@ const Ticket = () => {
         onClose={() => setModal(false)}
         productVersionId={versionId}
         clientes={clientes}
-        tasks={ticket?.tasks as any[]}
         edit={true}
         ticket={ticket}
       />
