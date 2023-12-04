@@ -120,7 +120,6 @@ export default function Tareas({id}:{id:any}) {
                                     <HeaderItem title="Tecnico" />
                                     <HeaderItem title="Estado" />
                                     <HeaderItem title="Fecha de Inicio" />
-                                    <HeaderItem title="Horas" />
                                     <HeaderItem title="Acciones" />
                                 </tr>
                                 </thead>

@@ -72,10 +72,6 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
                 <div className="text-sm leading-5 text-gray-900"> <FormatDate dateString={tarea['fechaCreacion']}/></div>
             </td>
 
-            <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div className="text-sm leading-5 text-gray-900">{}</div>
-            </td>
-
             
             {/* Botones de Acciones */}
             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -125,18 +121,6 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
                         </div>   
                        </div>
                 </ModalConfirmar>
-
-
-
-
-
-
-                <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
-	                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-	                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" />
-	                </svg>
-                        Ver
-                </button>
             </td>
 
         </tr>

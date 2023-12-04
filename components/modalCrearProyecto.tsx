@@ -65,7 +65,7 @@ const ModalCrearProyecto = ({isOpen, onClose, guardarDatos,children}:{isOpen: bo
                     <option value={lider}>...</option>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['legajo']} value={recurso['id']}>{recurso['Nombre']} {recurso['Apellido']}</option>
+                            <option key={recurso['legajo']} value={recurso['legajo']}>{recurso['Nombre']} {recurso['Apellido']}</option>
                         ))
                     }
                 </select>
