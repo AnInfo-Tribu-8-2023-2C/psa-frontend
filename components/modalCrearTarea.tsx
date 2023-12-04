@@ -18,7 +18,7 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("https://psa-backend-projectos.onrender.com/colaboradores")
+        fetch("https://psa-backend-projectos.onrender.com/recursos")
             .then((res) => {
                 return res.json()
             })
@@ -68,7 +68,7 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
                     <option value="null">No asignado</option>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['id']} value={recurso['id']}>{recurso['nombre']} {recurso['apellido']}</option>
+                            <option key={recurso['legajo']} value={recurso['legajo']}>{recurso['Nombre']} {recurso['Apellido']}</option>
                         ))
                     }
                 </select>

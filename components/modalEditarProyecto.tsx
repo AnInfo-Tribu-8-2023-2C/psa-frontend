@@ -22,7 +22,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("https://psa-backend-projectos.onrender.com/colaboradores")
+        fetch("https://psa-backend-projectos.onrender.com/recursos")
             .then((res) => {
                 return res.json()
             })
@@ -82,7 +82,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                     <option value={proyecto['lider'] == null ? null : proyecto['lider']['id']}>...</option>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['id']} value={recurso['id']}>{recurso['nombre']} {recurso['apellido']}</option>
+                            <option key={recurso['legajo']} value={recurso['legajo']}>{recurso['Nombre']} {recurso['Apellido']}</option>
                         ))
                     }
                 </select>
@@ -94,7 +94,8 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                     onChange={(event)=>{setEstado(event.target.value)}} value={estado}>
                     <option value="NO_INICIADO">NO INICIADO</option>
                     <option value="EN_PROCESO">EN PROCESO</option>
-                    <option value="FINALIZADO">FINALIZADO</option>                
+                    <option value="FINALIZADO">FINALIZADO</option>   
+                    <option value="BLOQUEADO">BLOQUEADO</option>             
                 </select>
             </div> 
         </div><br/>
