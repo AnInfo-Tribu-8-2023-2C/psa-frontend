@@ -8,7 +8,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
         "No iniciado": "NO_INICIADO",
         "En proceso": "EN_PROCESO",
         "Finalizado": "FINALIZADO",
-        "Bloqueado": "BLOQUEADO"
+        "Bloqueado": "BLOQUEADO",
     }
 
     const [recursos,setRecursos] = useState([])
