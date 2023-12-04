@@ -15,6 +15,7 @@ interface Props {
   usuarios: Usuario[];
   proyectos: any[];
   ticket?: TicketDeProducto;
+  productVersionId: string;
 }
 
 interface Inputs {
@@ -26,7 +27,7 @@ interface Inputs {
 }
 
 const TareaModal = (props: Props) => {
-  const { isOpen, onClose, usuarios, proyectos } = props;
+  const { isOpen, onClose, usuarios, proyectos, ticket, productVersionId } = props;
   const {
     register,
     handleSubmit,
@@ -42,6 +43,31 @@ const TareaModal = (props: Props) => {
     },
   });
 
+  const updateTicket = (taskId: string) => {
+    const newTasks = ticket?.tasks.map((task) => Number(task.id));
+    newTasks?.push(Number(taskId));
+    console.log("newTasks: ", newTasks);
+    axiosInstance
+      .put(`/tickets/${ticket?.id}`, {
+        title: ticket?.title,
+        description: ticket?.description,
+        state: ticket?.state,
+        severity: ticket?.severity,
+        productVersionId: productVersionId,
+        client: ticket?.client,
+        listLinkedTasks: newTasks,
+      })
+      .then((response: any) => {
+        // Handle the response
+        console.log("Ticket updated: ", response.data);
+        onClose();
+      })
+      .catch((error: any) => {
+        // Handle the error
+        console.error(error);
+      });
+  }
+
   const saveTarea = (data: Inputs) => {
     axiosInstance
       .post(`https://psa-backend-projectos.onrender.com/tarea`, {
@@ -51,9 +77,10 @@ const TareaModal = (props: Props) => {
         colaborador: data.colaboradorId,
         proyecto: data.proyectoId
       })
-      .then((response: any) => {
+      .then(async (response: any) => {
         // Handle the response
         console.log("Tarea saved: ", response.data);
+        await updateTicket(response.data.id);
         onClose();
       })
       .catch((error: any) => {

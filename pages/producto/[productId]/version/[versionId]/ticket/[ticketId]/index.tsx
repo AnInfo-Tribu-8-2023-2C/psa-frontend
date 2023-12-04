@@ -60,13 +60,18 @@ const Ticket = () => {
   };
 
   const getTasksByIds = (ids: number[]) => {
-    const tasks: Tarea[] = [];
+    const tasks: any[] = [];
     ids.map((id) => {
       axiosInstance
         .get(`https://psa-backend-projectos.onrender.com/tarea/${id}`)
         .then((response) => {
           // Handle the response
-          tasks.push(response.data);
+          if (response.data){
+            tasks.push(response.data);
+          }else{
+            console.log("No se encontró tarea con id: ", id);
+            tasks.push(null)
+          }
         })
         .catch((error) => {
           // Handle the error
@@ -101,14 +106,11 @@ const Ticket = () => {
   };
 
   useEffect(() => {
-    loadTicket();
-    fetchClients();
-  }, [ticketId, modal]);
-
-  useEffect(() => {
     fetchUsuarios();
     loadProyects();
-  }, [tareaModal]);
+    loadTicket();
+    fetchClients();
+  }, [ticketId, modal, tareaModal]);
 
   return (
     <div
@@ -158,7 +160,7 @@ const Ticket = () => {
           <h2 className={styles.ticketDataTitle}>Tareas asociadas:</h2>
           <ul className={styles.ticketDataListValue}>
             {ticket &&
-              ticket.tasks.map((task) => <li key={task.id}>{task.nombre}</li>)}
+              ticket.tasks.map((task) => task && <li key={task.id}>{task.nombre}</li>)}
           </ul>
         </div>
 
@@ -213,6 +215,7 @@ const Ticket = () => {
         usuarios={usuarios}
         proyectos={proyectos}
         ticket={ticket}
+        productVersionId={versionId}
       />
     </div>
   );
