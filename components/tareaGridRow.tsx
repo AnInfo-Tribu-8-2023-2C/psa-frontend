@@ -20,10 +20,10 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
     //     window.location.reload();
     // }
 
-    const editarDatos = (data:any, id:any) => {
+    const editarDatos = async (data:any, id:any) => {
         setDatos(data);
-        fetch(`https://psa-backend-projectos.onrender.com/tarea/${id}/estado`,{
-            method: 'PATCH',
+        await fetch(`https://psa-backend-projectos.onrender.com/tarea`,{
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
         });

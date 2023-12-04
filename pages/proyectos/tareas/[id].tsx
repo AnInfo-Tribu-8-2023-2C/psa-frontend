@@ -21,9 +21,9 @@ export default function Tareas({id}:{id:any}) {
     const [estadoSeleccionado, setEstadoSeleccionado] = useState('Todos');
     const [crearTareaModal, setCrearTareaModal] = useState(false);       
 
-    const guardarDatos = (datos: any) => {
+    const guardarDatos = async (datos: any) => {
         setDatos(datos);
-        fetch("https://psa-backend-projectos.onrender.com/tarea", {
+        await fetch("https://psa-backend-projectos.onrender.com/tarea", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}

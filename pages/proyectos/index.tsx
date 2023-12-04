@@ -12,9 +12,9 @@ export default function Proyectos() {
     const [crearProyectoModal, setCrearProyectoModal] = useState(false);
     const [datos, setDatos] = useState({});
 
-    const guardarDatos = (datos: any) => {
+    const guardarDatos = async (datos: any) => {
         setDatos(datos);
-        fetch("https://psa-backend-projectos.onrender.com/proyecto", {
+        await fetch("https://psa-backend-projectos.onrender.com/proyecto", {
             method:'POST',
             body: JSON.stringify(datos),
             headers: {'Content-type' : 'Application/json'}
