@@ -18,7 +18,7 @@ const KanbanBoard = ({ tasks }:{tasks:any}) => {
         {/* Contenido de la primera columna */}
             No iniciada   
             
-                {iniciados.map((tarea) => (
+                {iniciados.map((tarea:any) => (
                                     <TarjetaTarea tarea={tarea} />
                                 ))}
  
@@ -26,21 +26,21 @@ const KanbanBoard = ({ tasks }:{tasks:any}) => {
       <div className="col-span-1 bg-blue-300 p-4">
         {/* Contenido de la segunda columna */}
         En proceso
-        {enProgreso.map((tarea) => (
+        {enProgreso.map((tarea: any) => (
                                     <TarjetaTarea tarea={tarea} />
                                 ))}
       </div>
       <div className="col-span-1 bg-green-300 p-4">
         {/* Contenido de la tercera columna */}
         Finalizado
-        {finalizado.map((tarea) => (
+        {finalizado.map((tarea: any) => (
                                     <TarjetaTarea tarea={tarea} />
                                 ))}
       </div>
       <div className="col-span-1 bg-red-300 p-4">
         {/* Contenido de la tercera columna */}
         Bloqueada
-        {bloqueado.map((tarea) => (
+        {bloqueado.map((tarea: any) => (
                                     <TarjetaTarea tarea={tarea} />
                                 ))}
       </div>
