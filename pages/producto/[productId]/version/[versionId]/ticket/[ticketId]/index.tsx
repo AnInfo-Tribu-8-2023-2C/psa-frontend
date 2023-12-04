@@ -5,6 +5,7 @@ import {
   Cliente,
   EstadoTicket,
   SeveridadTicket,
+  Tarea,
   TicketDeProducto,
 } from "@/types/types";
 import { useRouter } from "next/router";
@@ -37,6 +38,11 @@ const Ticket = () => {
       .get(`/tickets/${ticketId}`)
       .then((response) => {
         console.log("Ticket data: ", response.data);
+        const tasksIds = response.data.listLinkedTasks as number[];
+        const tareas: Tarea[] = tasksIds.map((id) => {
+          return { id: id.toString(), nombre: "Tarea " + id.toString() };
+        });
+        console.log("Tareas ", tareas);
         setTicket({
           id: response.data.id,
           title: response.data.title,
@@ -46,7 +52,7 @@ const Ticket = () => {
           createdAt: response.data.createdAt,
           updatedAt: response.data.updatedAt,
           client: response.data.client,
-          tasks: []
+          tasks: tareas
         });
       })
       .catch((error) => {
@@ -72,7 +78,7 @@ const Ticket = () => {
     loadTicket();
     fetchClients();
     // fetchTasks();
-  }, [ticketId]);
+  }, [ticketId, modal]);
 
   return (
     <div
@@ -121,7 +127,7 @@ const Ticket = () => {
         <div className={styles.ticketDataItem}>
           <h2 className={styles.ticketDataTitle}>Tareas asociadas:</h2>
           <ul className={styles.ticketDataListValue}>
-            {ticket?.tasks.map((task) => (
+            {ticket && ticket.tasks.map((task) => (
               <li key={task.id}>{task.nombre}</li>
             ))}
           </ul>

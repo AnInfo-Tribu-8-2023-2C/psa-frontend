@@ -18,6 +18,8 @@ interface Props {
   tasks: any[];
   edit?: boolean;
   ticket?: TicketDeProducto;
+  loadProductVersion?: () => void;
+  loadTicket?: () => void;
 }
 
 interface TaskOption {
@@ -28,26 +30,28 @@ interface TaskOption {
 interface Inputs {
   title: string;
   description: string;
-  state: EstadoTicket;
-  severity: SeveridadTicket;
+  state: EstadoTicket | "";
+  severity: SeveridadTicket | "";
   reportedBy: string;
   relatedTasks: TaskOption[];
 }
 
 const TicketModal = (props: Props) => {
-  const { isOpen, onClose, productVersionId, clientes, tasks, edit, ticket } = props;
+  const { isOpen, onClose, productVersionId, clientes, tasks, edit, ticket } =
+    props;
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     control,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
       title: "",
       description: "",
-      state: EstadoTicket.ABIERTO,
-      severity: SeveridadTicket.S4,
+      state: "",
+      severity: "",
       reportedBy: "",
       relatedTasks: [],
     },
@@ -75,16 +79,17 @@ const TicketModal = (props: Props) => {
 
   useEffect(() => {
     if (edit && ticket) {
-      console.log("ticket", ticket);
       setValue("reportedBy", ticket!.client);
       setValue("title", ticket!.title);
       setValue("description", ticket!.description);
       setValue("state", ticket!.state);
       setValue("severity", ticket!.severity);
-      setValue("relatedTasks", ticket!.tasks.map((task) => ({ value: task.id, label: task.nombre })));
+      setValue(
+        "relatedTasks",
+        ticket!.tasks.map((task) => ({ value: task.id, label: task.nombre }))
+      );
     }
-  }
-  , [ticket, edit]);
+  }, [ticket, edit]);
 
   const saveTicket = (data: Inputs) => {
     axiosInstance
@@ -94,11 +99,13 @@ const TicketModal = (props: Props) => {
         state: data.state,
         severity: data.severity,
         productVersionId: productVersionId,
-        client: data.reportedBy
+        client: data.reportedBy,
+        listLinkedTasks: data.relatedTasks.map((task) => task.value),
       })
       .then((response: any) => {
         // Handle the response
         console.log("Ticket saved: ", response.data);
+        onClose();
       })
       .catch((error: any) => {
         // Handle the error
@@ -106,12 +113,37 @@ const TicketModal = (props: Props) => {
       });
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const updateTicket = (data: Inputs) => {
+    axiosInstance
+      .put(`/tickets/${ticket?.id}`, {
+        title: data.title,
+        description: data.description,
+        state: data.state,
+        severity: data.severity,
+        productVersionId: productVersionId,
+        client: data.reportedBy,
+        listLinkedTasks: data.relatedTasks.map((task) => task.value),
+      })
+      .then((response: any) => {
+        // Handle the response
+        console.log("Ticket updated: ", response.data);
+        onClose();
+      })
+      .catch((error: any) => {
+        // Handle the error
+        console.error(error);
+      });
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (edit) {
       console.log("Update Ticket with", data);
+      await updateTicket(data);
+      reset();
     } else {
       console.log("Create Ticket with: ", data);
-      saveTicket(data);
+      await saveTicket(data);
+      reset();
     }
   };
 
@@ -209,6 +241,7 @@ const TicketModal = (props: Props) => {
                     isMulti
                     name="colors"
                     onChange={onChange}
+                    value={value}
                     onBlur={onBlur}
                     options={mockTasks.map((task) => ({
                       value: task.id,

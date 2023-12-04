@@ -71,7 +71,7 @@ export default function TicketsDeProducto() {
     loadProductVersion();
     fetchClients();
     // fetchTasks();
-  }, [versionId]);
+  }, [versionId, modal]);
 
   return (
     <div className={styles.tableDataContainer}>
