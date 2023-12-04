@@ -1,15 +1,19 @@
 import React from "react";
-import { TicketDeProducto, VersionProducto } from "@/types/types";
+import { SeveridadTicket, TicketDeProducto, VersionProducto } from "@/types/types";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
 
 interface Props {
   ticket: TicketDeProducto;
-  productVersion: string;
+  productVersionId: string;
   productId: string;
 }
 
-export default function TicketGridRow({ ticket, productVersion, productId }: Props) {
+export default function TicketGridRow({
+  ticket,
+  productVersionId,
+  productId,
+}: Props) {
   return (
     <tr key={`${ticket.id}`}>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -21,7 +25,7 @@ export default function TicketGridRow({ ticket, productVersion, productId }: Pro
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{ticket.cliente}</div>
+        <div className="flex items-center">{ticket.client}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -29,18 +33,26 @@ export default function TicketGridRow({ ticket, productVersion, productId }: Pro
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{ticket.severity}</div>
+        <div className="flex items-center">{SeveridadTicket[ticket.severity]}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="text-sm leading-5 text-gray-900">
-          {ticket.creationDate.toLocaleString('en-GB', {timeStyle: 'short', dateStyle: 'medium'})}
+          {new Date(ticket.createdAt).toLocaleString("en-GB", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
         </div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="text-sm leading-5 text-gray-900">
-          {ticket.updateDate.toLocaleString('en-GB', {timeStyle: 'short', dateStyle: 'medium'})}
+          {new Date(ticket.updatedAt).toLocaleString("en-GB", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
         </div>
       </td>
 
@@ -56,7 +68,11 @@ export default function TicketGridRow({ ticket, productVersion, productId }: Pro
           <Link
             href={{
               pathname: "/producto/[productId]/version/[versionId]/ticket/[id]",
-              query: { id: ticket.id, versionId: productVersion, productId: productId},
+              query: {
+                id: ticket.id,
+                versionId: productVersionId,
+                productId: productId,
+              },
             }}
           >
             <ArrowForwardIosIcon />

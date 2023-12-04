@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./ticket.module.css";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Cliente, EstadoTicket, SeveridadTicket } from "@/types/types";
+import {
+  Cliente,
+  EstadoTicket,
+  SeveridadTicket,
+  TicketDeProducto,
+} from "@/types/types";
 import Select from "react-select";
+import { axiosInstance } from "@/api/axios";
 
 interface Props {
   isOpen: boolean;
@@ -11,6 +17,7 @@ interface Props {
   clientes: Cliente[];
   tasks: any[];
   edit?: boolean;
+  ticket?: TicketDeProducto;
 }
 
 interface TaskOption {
@@ -28,10 +35,11 @@ interface Inputs {
 }
 
 const TicketModal = (props: Props) => {
-  const { isOpen, onClose, productVersionId, clientes, tasks, edit } = props;
+  const { isOpen, onClose, productVersionId, clientes, tasks, edit, ticket } = props;
   const {
     register,
     handleSubmit,
+    setValue,
     control,
     formState: { errors },
   } = useForm<Inputs>({
@@ -52,7 +60,7 @@ const TicketModal = (props: Props) => {
     { id: "4", name: "Tarea 4" },
   ];
 
-  //Todo: Consumir lista de tareas de endpoint de proyecto para asociar al ticket
+  //Todo: Consumir lista de tasks de endpoint de proyecto para asociar al ticket
 
   // Consulto los tareas disponibles para asignar a las tickets
   //   useEffect(() => {
@@ -65,21 +73,46 @@ const TicketModal = (props: Props) => {
   //       });
   //   }, []);
 
-  
-  // Consulto los tickets para cargar valores inciales y hacer un update
-  //   useEffect(() => {
-  //     fetch("http://localhost:3001/recursos")
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then((data) => {
-  //         setRecursos(data);
-  //       });
-  //   }, []);
+  useEffect(() => {
+    if (edit && ticket) {
+      console.log("ticket", ticket);
+      setValue("reportedBy", ticket!.client);
+      setValue("title", ticket!.title);
+      setValue("description", ticket!.description);
+      setValue("state", ticket!.state);
+      setValue("severity", ticket!.severity);
+      setValue("relatedTasks", ticket!.tasks.map((task) => ({ value: task.id, label: task.nombre })));
+    }
+  }
+  , [ticket, edit]);
+
+  const saveTicket = (data: Inputs) => {
+    axiosInstance
+      .post(`/products/versions/tickets`, {
+        title: data.title,
+        description: data.description,
+        state: data.state,
+        severity: data.severity,
+        productVersionId: productVersionId,
+        client: data.reportedBy
+      })
+      .then((response: any) => {
+        // Handle the response
+        console.log("Ticket saved: ", response.data);
+      })
+      .catch((error: any) => {
+        // Handle the error
+        console.error(error);
+      });
+  };
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("data", data);
-    console.log(productVersionId);
+    if (edit) {
+      console.log("Update Ticket with", data);
+    } else {
+      console.log("Create Ticket with: ", data);
+      saveTicket(data);
+    }
   };
 
   return (
@@ -90,7 +123,7 @@ const TicketModal = (props: Props) => {
       <div className={styles.modalBody}>
         <div className={styles.modalHeader}>
           <h1 className="text-3xl font-bold decoration-gray-400">
-            Crear Tarea
+            {edit ? "Editar Ticket" : "Crear Ticket"}
           </h1>
           <button
             onClick={onClose}
@@ -152,7 +185,7 @@ const TicketModal = (props: Props) => {
               <label className={styles.modalFont}>Reportado por cliente:</label>
               <select {...register("reportedBy")} className={styles.inputStyle}>
                 {clientes.map((cliente) => (
-                  <option key={cliente.id} value={cliente.id}>
+                  <option key={cliente.id} value={cliente["razon social"]}>
                     {cliente["razon social"]}
                   </option>
                 ))}
@@ -213,9 +246,9 @@ const TicketModal = (props: Props) => {
             <div>
               <label className={styles.modalFont}>Severidad:</label>
               <select {...register("severity")} className={styles.inputStyle}>
-                {Object.values(SeveridadTicket).map((estado) => (
-                  <option key={estado} value={estado}>
-                    {estado}
+                {Object.values(SeveridadTicket).map((severity) => (
+                  <option key={severity} value={severity}>
+                    {severity}
                   </option>
                 ))}
               </select>

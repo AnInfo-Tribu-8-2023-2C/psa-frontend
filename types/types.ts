@@ -13,12 +13,15 @@ export interface Producto {
   id: string
   name: string
   description: string
+  createdAt: string
+  productVersions: VersionProducto[]
 }
 
 export interface VersionProducto {
   id: string
-  version: string,
-  fechaModificacion: Date,
+  name: string,
+  description: string,
+  creationDate: string
 }
 
 export interface Proyecto {
@@ -46,13 +49,13 @@ export interface ContadorTareas {
 export interface TicketDeProducto {
   id: string;
   title: string;
-  cliente: string;
+  client: string;
   state: EstadoTicket;
   description: string;
   severity: SeveridadTicket;
   tasks: Tarea[];
-  creationDate: Date;
-  updateDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export enum EstadoTicket {
@@ -66,10 +69,10 @@ export enum EstadoTicket {
 }
 
 export enum SeveridadTicket {
-  S1 = 'S1',
-  S2 = 'S2',
-  S3 = 'S3',
-  S4 = 'S4',
+  S1 = "S1",
+  S2 = "S2",
+  S3 = "S3",
+  S4 = "S4",
 }
 
 

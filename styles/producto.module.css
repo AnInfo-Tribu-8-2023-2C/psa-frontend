@@ -1,5 +1,5 @@
 .tableDataContainer {
-    display:flex;
+    display: flex;
     padding: 2rem;
     justify-content: flex-start;
     background-color: white;
@@ -8,4 +8,35 @@
     width: 75rem;
     flex-direction: column;
     height: 100%;
+}
+
+.productDataContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.productDataItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.productDataTitleHeader {
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+}
+
+.productDataTitle {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: black;
+}
+
+.productDataValue {
+    font-size: 1rem;
+    font-weight: 400;
+    color: black;
 }

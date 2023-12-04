@@ -16,12 +16,16 @@ export default function ProductVersionGridRow({ version, productId }: Props) {
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{version.version}</div>
+        <div className="flex items-center">{version.name}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="text-sm leading-5 text-gray-900">
-          {version.fechaModificacion.toLocaleString('en-GB', {timeStyle: 'short', dateStyle: 'medium'})}
+          {new Date(version.creationDate).toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
         </div>
       </td>
 
@@ -37,7 +41,7 @@ export default function ProductVersionGridRow({ version, productId }: Props) {
           <Link
             href={{
               pathname: "/producto/[productId]/version/[version]",
-              query: { version: version.version, productId: productId },
+              query: { version: version.id, productId: productId },
             }}
           >
             <ArrowForwardIosIcon />

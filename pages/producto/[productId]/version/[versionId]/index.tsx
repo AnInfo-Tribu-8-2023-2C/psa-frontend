@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Cliente, TicketDeProducto } from "@/types/types";
+import { Cliente, TicketDeProducto, VersionProducto } from "@/types/types";
 import TicketGridRow from "@/components/TicketGridRow";
 import TicketModal from "@/components/TicketModal";
 import styles from "./versionTickets.module.css";
+import { axiosInstance } from "@/api/axios";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -15,16 +16,17 @@ const HeaderItem = ({ title }: { title: string }) => {
 
 export default function TicketsDeProducto() {
   const router = useRouter();
-  const version = router.query.version as string;
+  const versionId = router.query.versionId as string;
   const productId = router.query.productId as string;
   const [list, setList] = useState<TicketDeProducto[]>([]);
   const [modal, setModal] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [tasks, setTasks] = useState([]);
+  const [productVersion, setProductVersion] = useState<VersionProducto>();
 
   const fetchClients = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
+      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes",  
     )
       .then((res) => {
         return res.json();
@@ -32,6 +34,23 @@ export default function TicketsDeProducto() {
       .then((data) => {
         console.log(data);
         setClientes(data);
+      });
+  };
+
+  const loadProductVersion = () => {
+    axiosInstance
+      .get(`/products/versions/${versionId}`)
+      .then((response: any) => {
+        setProductVersion({
+          id: response.data.id,
+          name: response.data.name,
+          description: response.data.description,
+          creationDate: response.data.creationDate,
+        });
+        setList(response.data.tickets);
+      })
+      .catch((error: any) => {
+        console.error(error);
       });
   };
 
@@ -49,70 +68,46 @@ export default function TicketsDeProducto() {
   // }
 
   useEffect(() => {
+    loadProductVersion();
     fetchClients();
     // fetchTasks();
-  }, []);
-
-  // useEffect(() => {
-  //   setList([
-  //     {
-  //       id: "1",
-  //       nombre: "Ticket 1",
-  //       descripcion: "Descripción del ticket 1",
-  //       estado: "Abierto",
-  //       horasCalculadas: 10,
-  //       fechaInicial: new Date("2021-08-01"),
-  //       fechaModificacion: new Date("2021-08-03"),
-  //     },
-  //     {
-  //       id: "2",
-  //       nombre: "Ticket 2",
-  //       descripcion: "Descripción del ticket 2",
-  //       estado: "Abierto",
-  //       horasCalculadas: 10,
-  //       fechaInicial: new Date("2021-08-04"),
-  //       fechaModificacion: new Date("2021-08-05"),
-  //     },
-  //     {
-  //       id: "3",
-  //       nombre: "Ticket 3",
-  //       descripcion: "Descripción del ticket 3",
-  //       estado: "Abierto",
-  //       horasCalculadas: 10,
-  //       fechaInicial: new Date("2021-09-05"),
-  //       fechaModificacion: new Date("2021-09-09"),
-  //     },
-  //     {
-  //       id: "4",
-  //       nombre: "Ticket 4",
-  //       descripcion: "Descripción del ticket 4",
-  //       estado: "Abierto",
-  //       horasCalculadas: 10,
-  //       fechaInicial: new Date("2021-10-01"),
-  //       fechaModificacion: new Date("2021-10-04"),
-  //     },
-  //   ]);
-  // }, [version]);
+  }, [versionId]);
 
   return (
-    <div
-      className={styles.tableDataContainer}
-      // style={{
-      //   display: "flex",
-      //   flexDirection: "column",
-      //   height: "100%",
-      //   padding: "2rem",
-      //   overflow: "auto",
-      //   backgroundColor: "white",
-      //   borderRadius: "20px",
-      // }}
-    >
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold decoration-gray-400">
-          {"Tickets de producto version " + version}
-        </h1>
+    <div className={styles.tableDataContainer}>
+      <div className={styles.versionTicketDataContainer}>
+        <div className={styles.versionTicketDataItem}>
+          <h2 className={styles.versionTicketDataTitleHeader}>
+            {productVersion?.name ?? "Versión de Producto"}
+          </h2>
+        </div>
+        <div className={styles.versionTicketDataItem}>
+          <h2 className={styles.versionTicketDataTitle}>Descripción:</h2>
+          <p className={styles.versionTicketDataValue}>
+            {productVersion?.description ?? ""}
+          </p>
+        </div>
+        <div className={styles.versionTicketDataItem}>
+          <h2 className={styles.versionTicketDataTitle}>Fecha de creación:</h2>
+          <p className={styles.versionTicketDataValue}>
+            {new Date(productVersion?.creationDate ?? "").toLocaleString(
+              "en-GB",
+              {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              }
+            )}
+          </p>
+        </div>
       </div>
-      <div className="flex flex-col" style={{width: "100%"}}>
+      <h2
+        className={styles.versionTicketDataTitle}
+        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
+      >
+        {"Tickets:"}
+      </h2>
+      <div className="flex flex-col" style={{ width: "100%", maxHeight: "390px" }}>
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
@@ -134,7 +129,7 @@ export default function TicketsDeProducto() {
                   <TicketGridRow
                     key={ticket.id}
                     ticket={ticket}
-                    productVersion={version}
+                    productVersionId={versionId}
                     productId={productId}
                   />
                 ))}
@@ -151,7 +146,7 @@ export default function TicketsDeProducto() {
       <TicketModal
         isOpen={modal}
         onClose={() => setModal(false)}
-        productVersionId={version}
+        productVersionId={versionId}
         clientes={clientes}
         tasks={tasks}
       />

@@ -9,11 +9,12 @@ import {
 } from "@/types/types";
 import { useRouter } from "next/router";
 import TicketModal from "@/components/TicketModal";
+import { axiosInstance } from "@/api/axios";
 
 const Ticket = () => {
   const router = useRouter();
   const ticketId = router.query.ticketId as string;
-  const version = router.query.version as string;
+  const versionId = router.query.versionId as string;
   const [modal, setModal] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [tasks, setTasks] = useState([]);
@@ -21,7 +22,7 @@ const Ticket = () => {
 
   const fetchClients = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
+      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes",
     )
       .then((res) => {
         return res.json();
@@ -31,6 +32,29 @@ const Ticket = () => {
       });
   };
 
+  const loadTicket = () => {
+    axiosInstance
+      .get(`/tickets/${ticketId}`)
+      .then((response) => {
+        console.log("Ticket data: ", response.data);
+        setTicket({
+          id: response.data.id,
+          title: response.data.title,
+          description: response.data.description,
+          state: response.data.state,
+          severity: response.data.severity,
+          createdAt: response.data.createdAt,
+          updatedAt: response.data.updatedAt,
+          client: response.data.client,
+          tasks: []
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  //fetch de tasks asociados al ticket
   // const fetchTasks = () => {
   //   fetch(
   //     "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/tareas-psa/1.0.0/m/api/tareas"
@@ -45,27 +69,10 @@ const Ticket = () => {
   // }
 
   useEffect(() => {
-    const mockTicket: TicketDeProducto = {
-      id: "1",
-      title: "Ticket 1",
-      description: "Ticket 1 description",
-      state: EstadoTicket.ABIERTO,
-      severity: SeveridadTicket.S4,
-      creationDate: new Date(),
-      updateDate: new Date(),
-      cliente: "Cliente 1",
-      tasks: [
-        { id: "1", nombre: "Tarea 1" },
-        { id: "2", nombre: "Tarea 2" },
-      ],
-    };
-    setTicket(mockTicket);
+    loadTicket();
     fetchClients();
-    console.log("TicketId: ", ticketId);
-    console.log("Version: ", version);
-    //fetch ticket data
     // fetchTasks();
-  }, []);
+  }, [ticketId]);
 
   return (
     <div
@@ -85,14 +92,14 @@ const Ticket = () => {
         </h1>
       </div>
       <div className={styles.ticketDataContainer}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
           <div className={styles.ticketDataItem}>
             <h2 className={styles.ticketDataTitle}>Title:</h2>
             <p className={styles.ticketDataValue}>{ticket?.title}</p>
           </div>
           <div className={styles.ticketDataItem}>
             <h2 className={styles.ticketDataTitle}>Reportado por:</h2>
-            <p className={styles.ticketDataValue}>{ticket?.cliente}</p>
+            <p className={styles.ticketDataValue}>{ticket?.client}</p>
           </div>
         </div>
 
@@ -120,13 +127,14 @@ const Ticket = () => {
           </ul>
         </div>
 
-        <div style={{ display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <div className={styles.ticketDataItem}>
             <h2 className={styles.ticketDataTitle}>Fecha de creación:</h2>
             <p className={styles.ticketDataValue}>
-              {ticket?.creationDate.toLocaleString("en-GB", {
-                timeStyle: "short",
-                dateStyle: "medium",
+              {new Date(ticket?.createdAt ?? "").toLocaleString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
               })}
             </p>
           </div>
@@ -134,9 +142,10 @@ const Ticket = () => {
           <div className={styles.ticketDataItem}>
             <h2 className={styles.ticketDataTitle}>Fecha de modificación:</h2>
             <p className={styles.ticketDataValue}>
-              {ticket?.updateDate.toLocaleString("en-GB", {
-                timeStyle: "short",
-                dateStyle: "medium",
+              {new Date(ticket?.updatedAt ?? "").toLocaleString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
               })}
             </p>
           </div>
@@ -150,9 +159,11 @@ const Ticket = () => {
       <TicketModal
         isOpen={modal}
         onClose={() => setModal(false)}
-        productVersionId={version}
+        productVersionId={versionId}
         clientes={clientes}
         tasks={tasks}
+        edit={true}
+        ticket={ticket}
       />
     </div>
   );
