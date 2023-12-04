@@ -20,7 +20,6 @@ const Ticket = () => {
   const versionId = router.query.versionId as string;
   const [modal, setModal] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [tasks, setTasks] = useState([]);
   const [ticket, setTicket] = useState<TicketDeProducto>();
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [proyectos, setProyectos] = useState<any[]>([]);
@@ -236,7 +235,7 @@ const Ticket = () => {
         onClose={() => setModal(false)}
         productVersionId={versionId}
         clientes={clientes}
-        tasks={tasks}
+        tasks={ticket?.tasks as any[]}
         edit={true}
         ticket={ticket}
       />
