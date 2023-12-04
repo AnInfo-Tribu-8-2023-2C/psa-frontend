@@ -5,6 +5,7 @@ import { Proyecto } from "@/types/types";
 import { useRouter } from 'next/router';
 import ModalCrearTarea from "@/components/modalCrearTarea";
 import { Cantora_One } from "next/font/google";
+import KanbanBoard from '@/components/kanban/tablero';
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -16,7 +17,8 @@ export default function Tareas({id}:{id:any}) {
     const [datos, setDatos] = useState({});
 
     const router = useRouter();
-
+    const [textFilter,setTextFilter] = useState('');
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState('Todos');
     const [crearTareaModal, setCrearTareaModal] = useState(false);       
 
     const guardarDatos = (datos: any) => {
@@ -54,6 +56,9 @@ export default function Tareas({id}:{id:any}) {
             })
     }, []);
 
+    const tareasFiltradas = tareas.filter((objeto : any) => objeto['nombre'].toLowerCase().includes(textFilter.toLowerCase()));
+    const tareasSelects = (estadoSeleccionado === 'Todos' ) ? tareasFiltradas : tareasFiltradas.filter((objeto : any) => (objeto.estado === estadoSeleccionado)); 
+
     return (
         <>
             {/* ACA EMPIEZA LA GRILLA */}
@@ -83,6 +88,25 @@ export default function Tareas({id}:{id:any}) {
                     </ModalCrearTarea>
                 </div>
 
+                <div className='space-x-4 '>
+                   <label >Filtrar por estado: </label>
+                    <select  className='text-gray-600 border border-gray-300 rounded outline-infigo-700 ' onChange={(e) => setEstadoSeleccionado(e.target.value)}>
+                        <option value="Todos">Todos</option>
+                        <option value="Iniciado">Iniciado</option>
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Bloqueado">Bloqueado</option>                
+                    </select>
+                            
+                    
+                    <label >Filtrar tarea por nombre de tarea: </label>
+                    <input
+                    onChange={(e)=>(setTextFilter(e.target.value) )}
+                    type='text'
+                    className='text-gray-600 border border-gray-300 rounded outline-infigo-700'
+                    placeholder="Buscar..."/>
+                </div>
+      
+
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
@@ -108,6 +132,9 @@ export default function Tareas({id}:{id:any}) {
                                 </tbody>
                             </table>
                         </div>
+                         </div>
+                        <KanbanBoard tasks={tareas}/>
+                    <div>
                     </div>
                 </div>
             </div>
