@@ -1,0 +1,11 @@
+.fondoDiv {
+    background-image: url('../Imagenes/homeImage.jpg');
+    background-size: cover; /* Ajustar el tamaño de la imagen para cubrir el fondo */
+    background-position: center; /* Centrar la imagen */
+    height: 100vh; /* Ajustar la altura según tus necesidades */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Ajustar el color del texto para que sea legible en el fondo */
+  }

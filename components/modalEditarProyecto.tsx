@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
+import IsLeaderNull from './isLeaderNull';
 
 const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any) => void;proyecto:any;children:any}) => {
     
-    const [recursos,setRecursos] = useState([])
+    const diccionarioEstado = {
+        "No iniciado": "NO_INICIADO",
+        "En proceso": "EN_PROCESO",
+        "Finalizado": "FINALIZADO",
+        "Bloqueado": "BLOQUEADO",
+    }
 
+    const [recursos,setRecursos] = useState([])
     const [id,setId] = useState(proyecto['id'])
     const [nombre, setNombre] = useState(proyecto['nombre']);
     const [descripcion, setDescripcion] = useState(proyecto['descripcion']);
-    const [lider, setLider] = useState(proyecto['lider']);
-    const [estado, setEstado] = useState(proyecto['estado']);
-    const [fechaIni, setFechaIni] = useState('');
-    const [fechaFin, setFechaFin] = useState('');
-
+    const [lider, setLider] = useState(proyecto['lider'] === null ? null : proyecto['lider']['id']);
+    const [estado, setEstado] = useState(diccionarioEstado[proyecto['estado']]);
+    const [fechaIni, setFechaIni] = useState(proyecto['fechaCreacion']);
+    const [fechaFin, setFechaFin] = useState(proyecto['fechaFinalizacion']);
     
     // Consulto los recursos disponibles para asignar a las tareas
     useEffect ( () => {
-        fetch("http://localhost:3001/recursos")
+        fetch("https://psa-backend-projectos.onrender.com/recursos")
             .then((res) => {
                 return res.json()
             })
@@ -31,15 +37,15 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
       <div className={styles.modalBody}>
         
        <div className='flex flex-row-reverse'>
-        <button 
-        onClick={onClose}
-        type="button" className="flex flex-row-reverse text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center  items-center me-2 dark:bg-red-600 dark:hover:bg-bred-700 dark:focus:ring-red-800">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <span className="sr-only">Icon description</span>
-        </button>
-      </div>  
+            <button 
+            onClick={onClose}
+            type="button" className="flex flex-row-reverse text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center  items-center me-2 dark:bg-red-600 dark:hover:bg-bred-700 dark:focus:ring-red-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="sr-only">Icon description</span>
+            </button>
+        </div>  
         <h1 className='text-3xl font-bold decoration-gray-400'>Editar Proyecto</h1> 
         <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>  
       
@@ -55,8 +61,8 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
         <div>
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
             <input 
-            onChange={(event)=>{setNombre(event.target.value); }}
-            value={nombre}
+            onChange={(event)=>{setNombre(event.target.value); }} 
+            value={nombre}     
             type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese Nombre del Proyecto" required/>
         </div><br/>
 
@@ -73,9 +79,10 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lider del Proyecto:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                  onChange={(event)=>{setLider(event.target.value)}} value={lider}>
+                    <option value={proyecto['lider'] == null ? null : proyecto['lider']['id']}>...</option>
                     {
                         recursos.map( (recurso) => (
-                            <option key={recurso['lejajo']} value={recurso['Nombre']+' '+recurso['Apellido']}>{recurso['Nombre']} {recurso['Apellido']}</option>
+                            <option key={recurso['legajo']} value={recurso['legajo']}>{recurso['Nombre']} {recurso['Apellido']}</option>
                         ))
                     }
                 </select>
@@ -85,21 +92,14 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                     onChange={(event)=>{setEstado(event.target.value)}} value={estado}>
-                    <option value="Iniciado">Iniciado</option>
-                    <option value="En Proceso">En Proceso</option>
-                    <option value="Bloqueado">Bloqueado</option>                
+                    <option value="NO_INICIADO">NO INICIADO</option>
+                    <option value="EN_PROCESO">EN PROCESO</option>
+                    <option value="FINALIZADO">FINALIZADO</option>            
                 </select>
             </div> 
         </div><br/>
         
         <div className="grid gap-6 mb-6 md:grid-cols-2">
-            <div className='input-group mb-3' >
-                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' id='inputGroup-sizing-defult'>Fecha de Inicio:</label>
-                <input 
-                onChange={(event)=>{setFechaIni(event.target.value)}}
-                type='date' className='datepicker bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'/>
-            </div>        
-
             <div className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' >
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' id='inputGroup-sizing-defualt'>Fecha de finalización Estimada:</label>
                 <input 
@@ -112,7 +112,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        editarDatos({Id:id, Nombre: nombre, Descripcion: descripcion,Lider: lider,Estado: estado, FechaIni: fechaIni,FechaFin: fechaFin});
+                        editarDatos({id: id, nombre: nombre, descripcion: descripcion, liderId: lider, estado: estado, fechaCreacion: fechaIni, fechaFinalizacion: new Date(fechaFin)});
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
