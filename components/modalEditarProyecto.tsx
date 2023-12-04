@@ -94,8 +94,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                     onChange={(event)=>{setEstado(event.target.value)}} value={estado}>
                     <option value="NO_INICIADO">NO INICIADO</option>
                     <option value="EN_PROCESO">EN PROCESO</option>
-                    <option value="FINALIZADO">FINALIZADO</option>   
-                    <option value="BLOQUEADO">BLOQUEADO</option>             
+                    <option value="FINALIZADO">FINALIZADO</option>            
                 </select>
             </div> 
         </div><br/>
