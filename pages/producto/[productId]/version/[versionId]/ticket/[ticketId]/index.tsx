@@ -1,16 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import styles from "@/components/ticket.module.css";
-import {
-  Cliente,
-  Tarea,
-  TicketDeProducto,
-  Usuario,
-} from "@/types/types";
+import { Cliente, Tarea, TicketDeProducto, Usuario } from "@/types/types";
 import { useRouter } from "next/router";
 import TicketModal from "@/components/TicketModal";
 import { axiosInstance } from "@/api/axios";
 import TareaModal from "@/components/TareaModal";
+import { set } from "date-fns";
 
 const Ticket = () => {
   const router = useRouter();
@@ -63,16 +59,30 @@ const Ticket = () => {
       });
   };
 
+  const getTasksByIds = (ids: number[]) => {
+    const tasks: Tarea[] = [];
+    ids.map((id) => {
+      axiosInstance
+        .get(`https://psa-backend-projectos.onrender.com/tarea/${id}`)
+        .then((response) => {
+          // Handle the response
+          tasks.push(response.data);
+        })
+        .catch((error) => {
+          // Handle the error
+          console.error(error);
+        });
+    });
+    return tasks;
+  };
+
   const loadTicket = () => {
     axiosInstance
       .get(`/tickets/${ticketId}`)
-      .then((response) => {
-        console.log("Ticket data: ", response.data);
+      .then(async (response) => {
         const tasksIds = response.data.listLinkedTasks as number[];
-        const tareas: Tarea[] = tasksIds.map((id) => {
-          return { id: id.toString(), nombre: "Tarea " + id.toString() };
-        });
-        console.log("Tareas ", tareas);
+        const tareas: Tarea[] = await getTasksByIds(tasksIds);
+        console.log("Tareas de ticket", tareas);
         setTicket({
           id: response.data.id,
           title: response.data.title,
@@ -90,24 +100,9 @@ const Ticket = () => {
       });
   };
 
-  //fetch de tasks asociados al ticket
-  // const fetchTasks = () => {
-  //   fetch(
-  //     "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/tareas-psa/1.0.0/m/api/tareas"
-  //   )
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setTasks(data);
-  //     });
-  // }
-
   useEffect(() => {
     loadTicket();
     fetchClients();
-    // fetchTasks();
   }, [ticketId, modal]);
 
   useEffect(() => {
@@ -196,7 +191,10 @@ const Ticket = () => {
           Edit Ticket
         </button>
 
-        <button className={styles.saveButton} onClick={() => setTareaModal(true)}>
+        <button
+          className={styles.saveButton}
+          onClick={() => setTareaModal(true)}
+        >
           Asociar nueva tarea
         </button>
       </div>
@@ -214,6 +212,7 @@ const Ticket = () => {
         onClose={() => setTareaModal(false)}
         usuarios={usuarios}
         proyectos={proyectos}
+        ticket={ticket}
       />
     </div>
   );

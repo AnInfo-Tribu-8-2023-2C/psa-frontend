@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "./ticket.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { EstadoTicket, Usuario } from "@/types/types";
+import {
+  EstadoTarea,
+  EstadoTicket,
+  TicketDeProducto,
+  Usuario,
+} from "@/types/types";
 import { axiosInstance } from "@/api/axios";
 
 interface Props {
@@ -9,6 +14,7 @@ interface Props {
   onClose: () => void;
   usuarios: Usuario[];
   proyectos: any[];
+  ticket?: TicketDeProducto;
 }
 
 interface Inputs {
@@ -38,12 +44,12 @@ const TareaModal = (props: Props) => {
 
   const saveTarea = (data: Inputs) => {
     axiosInstance
-      .post(`/products/versions/tickets`, {
+      .post(`https://psa-backend-projectos.onrender.com/tarea`, {
         nombre: data.nombre,
         descripcion: data.descripcion,
         estado: data.estado,
-        colaboradorId: data.colaboradorId,
-        proyectoId: data.proyectoId,
+        colaborador: data.colaboradorId,
+        proyecto: data.proyectoId
       })
       .then((response: any) => {
         // Handle the response
@@ -59,7 +65,6 @@ const TareaModal = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("Create Ticket with: ", data);
     await saveTarea(data);
-    //asociar tarea a ticket
     reset();
   };
 
@@ -153,9 +158,9 @@ const TareaModal = (props: Props) => {
             <div>
               <label className={styles.modalFont}>Estado:</label>
               <select {...register("estado")} className={styles.inputStyle}>
-                {Object.values(EstadoTicket).map((estado) => (
-                  <option key={estado} value={estado}>
-                    {estado}
+                {Object.entries(EstadoTarea).map((estado) => (
+                  <option key={estado[0]} value={estado[0]}>
+                    {estado[1]}
                   </option>
                 ))}
               </select>

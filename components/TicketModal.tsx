@@ -55,13 +55,6 @@ const TicketModal = (props: Props) => {
     },
   });
 
-  const mockTasks = [
-    { id: "1", name: "Tarea 1" },
-    { id: "2", name: "Tarea 2" },
-    { id: "3", name: "Tarea 3" },
-    { id: "4", name: "Tarea 4" },
-  ];
-
   //Todo: Consumir lista de tasks de endpoint de proyecto para asociar al ticket
 
   // Consulto los tareas disponibles para asignar a las tickets
@@ -241,9 +234,9 @@ const TicketModal = (props: Props) => {
                     onChange={onChange}
                     value={value}
                     onBlur={onBlur}
-                    options={mockTasks.map((task) => ({
+                    options={tasks.map((task) => ({
                       value: task.id,
-                      label: task.name,
+                      label: task.nombre,
                     }))}
                     className="basic-multi-select"
                     classNamePrefix="select"

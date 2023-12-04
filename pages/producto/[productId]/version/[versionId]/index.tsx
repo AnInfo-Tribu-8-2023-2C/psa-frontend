@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Cliente, TicketDeProducto, Usuario, VersionProducto } from "@/types/types";
+import {
+  Cliente,
+  Tarea,
+  TicketDeProducto,
+  Usuario,
+  VersionProducto,
+} from "@/types/types";
 import TicketGridRow from "@/components/TicketGridRow";
 import TicketModal from "@/components/TicketModal";
 import styles from "./versionTickets.module.css";
 import { axiosInstance } from "@/api/axios";
 import TareaModal from "@/components/TareaModal";
+import SearchFilter from "@/components/SearchFilter";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -20,7 +27,8 @@ export default function TicketsDeProducto() {
   const versionId = router.query.versionId as string;
   const productId = router.query.productId as string;
   const [list, setList] = useState<TicketDeProducto[]>([]);
-  const [tasks, setTasks] = useState([]);
+  const [initialList, setInitialList] = useState<TicketDeProducto[]>([]);
+  const [tasks, setTasks] = useState<Tarea[]>([]);
   const [modal, setModal] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [productVersion, setProductVersion] = useState<VersionProducto>();
@@ -38,8 +46,6 @@ export default function TicketsDeProducto() {
       });
   };
 
-  
-
   const loadProductVersion = () => {
     axiosInstance
       .get(`/products/versions/${versionId}`)
@@ -51,29 +57,31 @@ export default function TicketsDeProducto() {
           creationDate: response.data.creationDate,
         });
         setList(response.data.tickets);
+        setInitialList(response.data.tickets);
       })
       .catch((error: any) => {
         console.error(error);
       });
   };
 
-  // const fetchTasks = () => {
-  //   fetch(
-  //     "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/tareas-psa/1.0.0/m/api/tareas"
-  //   )
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setTasks(data);
-  //     });
-  // }
+  const loadTasks = () => {
+    axiosInstance
+      .get(`https://psa-backend-projectos.onrender.com/tareas`)
+      .then((response) => {
+        // Handle the response
+        console.log("Tasks data: ", response.data);
+        setTasks(response.data);
+      })
+      .catch((error) => {
+        // Handle the error
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
     loadProductVersion();
     fetchClients();
-    // fetchTasks();
+    loadTasks();
   }, [versionId, modal]);
 
   return (
@@ -104,12 +112,13 @@ export default function TicketsDeProducto() {
           </p>
         </div>
       </div>
-      <h2
-        className={styles.versionTicketDataTitle}
-        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-      >
-        {"Tickets:"}
-      </h2>
+      <h2 className={styles.versionTicketDataTitle}>{"Tickets:"}</h2>
+      <SearchFilter
+        intialList={initialList}
+        dataList={list}
+        setList={setList}
+        ticket
+      />
       <div
         className="flex flex-col"
         style={{ width: "100%", maxHeight: "390px" }}

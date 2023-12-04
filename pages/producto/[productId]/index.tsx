@@ -4,6 +4,8 @@ import ProductVersionGridRow from "@/components/ProductVersionGridRow";
 import { useRouter } from "next/router";
 import styles from "@/styles/producto.module.css";
 import { axiosInstance } from "@/api/axios";
+import SearchFilter from "@/components/SearchFilter";
+import { set } from "date-fns";
 
 const HeaderItem = ({ title }: { title: string }) => {
   return (
@@ -17,6 +19,8 @@ export default function VersionesDeProducto() {
   const router = useRouter();
   const productoId = router.query.productId as string;
   const [product, setProduct] = useState<Producto>();
+  const [productVersions, setProductVersions] = useState<VersionProducto[]>([]);
+  const [initialList, setInitialList] = useState<VersionProducto[]>([]);
 
   const fetchProductById = () => {
     axiosInstance.get(`/products/${productoId}`)
@@ -24,26 +28,14 @@ export default function VersionesDeProducto() {
         // Handle the response
         console.log("Product data: ", response.data);
         setProduct(response.data);
+        setProductVersions(response.data.productVersions); 
+        setInitialList(response.data.productVersions);
       })
       .catch(error => {
         // Handle the error
         console.error(error);
       });
   }
-
-
-  // useEffect(() => {
-  //   fetch(
-  //     "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
-  //   )
-  //     .then((res) => {
-  //       console.log(res);
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setList(data);
-  //     });
-  // }, []);
 
   useEffect(() => {
     fetchProductById();
@@ -74,6 +66,7 @@ export default function VersionesDeProducto() {
         </div>
       </div>
       <h2 className={styles.productDataTitle} style={{paddingTop: "1rem", paddingBottom: "1rem"}}>Versiones:</h2>
+      <SearchFilter intialList={initialList} dataList={productVersions} setList={setProductVersions} productVersion/>
       <div className="flex flex-col" style={{ width: "100%", maxHeight: "450px" }}>
         <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
@@ -89,7 +82,7 @@ export default function VersionesDeProducto() {
               </thead>
 
               <tbody>
-                {product?.productVersions.map((version) => (
+                {productVersions.map((version) => (
                   <ProductVersionGridRow
                     key={version.id}
                     version={version}

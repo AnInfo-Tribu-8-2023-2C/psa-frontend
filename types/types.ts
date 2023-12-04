@@ -37,6 +37,11 @@ export interface Proyecto {
 export interface Tarea {
   id: string
   nombre: string
+  descripcion: string
+  estado: EstadoTarea
+  fechaCreacion: string
+  colaborador: any
+  proyecto: any
 }
 
 export interface ContadorTareas {
@@ -66,6 +71,13 @@ export enum EstadoTicket {
   BLOQUEADO = 'Bloqueado',
   ENDESARROLLO = 'En Desarrollo', // se crea para desarrollo=???
   ESPERADECLIENTE = 'Espera de Cliente',
+}
+
+export enum EstadoTarea {
+  NO_INICIADO = 'NO INICIADO',
+  EN_PROCESO = 'EN PROCESO',
+  FINALIZADO = 'FINALIZADO',
+  BLOQUEADO = 'BLOQUEADO',
 }
 
 export enum SeveridadTicket {
