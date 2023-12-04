@@ -7,7 +7,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
         "No iniciado": "NO_INICIADO",
         "En proceso": "EN_PROCESO",
         "Finalizado": "FINALIZADO",
-        "Bloqueado": "BLOQUEADO"
+        "Bloqueado": "BLOQUEADO",
     }
 
     const [recursos,setRecursos] = useState([])
@@ -15,7 +15,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
     const [nombre, setNombre] = useState(proyecto['nombre']);
     const [descripcion, setDescripcion] = useState(proyecto['descripcion']);
     const { lidertest } = proyecto
-    const [lider, setLider] = useState();
+    const [lider, setLider] = useState('');
     const isLiderNull = (lidertest:any) => {
         if (!lidertest)  {setLider(lidertest['id'])}
     }
