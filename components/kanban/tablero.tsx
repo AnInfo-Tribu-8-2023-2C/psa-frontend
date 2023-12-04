@@ -13,14 +13,14 @@ const KanbanBoard = ({ tasks }:{tasks:any}) => {
   const finalizado = tasks.filter((objeto : any) => objeto['estado'] === 'Finalizado');
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-4 gap-4">
       <div className="flex flex-col col-span-1 bg-gray-300 p-4">
         {/* Contenido de la primera columna */}
-            Iniciado   
+            No iniciada   
             
                 {iniciados.map((tarea) => (
                                     <TarjetaTarea tarea={tarea} />
-                                ))};
+                                ))}
  
         </div>
       <div className="col-span-1 bg-blue-300 p-4">
@@ -28,14 +28,21 @@ const KanbanBoard = ({ tasks }:{tasks:any}) => {
         En proceso
         {enProgreso.map((tarea) => (
                                     <TarjetaTarea tarea={tarea} />
-                                ))};
+                                ))}
       </div>
       <div className="col-span-1 bg-green-300 p-4">
         {/* Contenido de la tercera columna */}
         Finalizado
         {finalizado.map((tarea) => (
                                     <TarjetaTarea tarea={tarea} />
-                                ))};
+                                ))}
+      </div>
+      <div className="col-span-1 bg-red-300 p-4">
+        {/* Contenido de la tercera columna */}
+        Bloqueada
+        {bloqueado.map((tarea) => (
+                                    <TarjetaTarea tarea={tarea} />
+                                ))}
       </div>
     </div>
   )

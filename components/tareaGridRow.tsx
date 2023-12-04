@@ -42,7 +42,7 @@ export default function TareaGridRow({ tarea,idProyecto }: { tarea: any ; idProy
         fetch(`https://psa-backend-projectos.onrender.com/tarea/${tarea.id}`,{ method: 'DELETE'});
         setModalEliminar({isOpen: false, todo: {}});
         window.location.reload();
-    } 
+    }
 
     const ColaboradorIsNull = (tarea : any) => {
         if (tarea['colaborador'] === null)

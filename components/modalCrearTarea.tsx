@@ -8,7 +8,7 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [fechaIni, setFechaIni] = useState("");
-    const [estado, setEstado] = useState("");
+    const [estado, setEstado] = useState("NO_INICIADO");
     const [tecnico, setTecnico] = useState('');
     const [horasCalculadas, setHorasCalculadas] = useState('');
     
@@ -59,18 +59,6 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
             onChange={(event)=>{setDescripcion(event.target.value); }}
             id="message" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingrese una descripción de la tarea..."></textarea>
         </div><br/> 
-
-            <div className='input-group mb-3' >
-                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' id='inputGroup-sizing-defult'>Fecha de Inicio:</label>
-                <input 
-                onChange={(event)=>{setFechaIni(event.target.value)}}
-                type='date' className='datepicker bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'/>
-            </div>        
-
-            <br/>
-        
-        
-        
         
         <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
@@ -90,7 +78,6 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                     onChange={(event)=>{setEstado(event.target.value)}}>
-                    <option value="...">...</option>
                     <option value="NO_INICIADO">NO INICIADO</option>
                     <option value="EN_PROCESO">EN PROCESO</option>
                     <option value="FINALIZADO">FINALIZADO</option>
@@ -103,7 +90,7 @@ const ModalCrearTarea = ({isOpen, onClose, guardarDatos,idProyecto,children}:{is
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        guardarDatos({nombre: nombre, descripcion: descripcion, estado: estado, colaborador: tecnico ,proyecto: idProyecto});
+                        guardarDatos({nombre: nombre, descripcion: descripcion, estado: estado, colaboradorId: tecnico , proyectoId: idProyecto});
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import styles from './modalCrearProyectos.module.css';
 
-const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any, id:any) => void;proyecto:any;children:any}) => {
+const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:{isOpen: boolean; onClose: () => void; editarDatos: (datos: any) => void;proyecto:any;children:any}) => {
     
     const [recursos,setRecursos] = useState([])
     const [id,setId] = useState(proyecto['id'])
     const [nombre, setNombre] = useState(proyecto['nombre']);
     const [descripcion, setDescripcion] = useState(proyecto['descripcion']);
-    const [lider, setLider] = useState(proyecto['lider']);
+    const [lider, setLider] = useState(proyecto['lider']['id']);
     const [estado, setEstado] = useState(proyecto['estado']);
     const [fechaIni, setFechaIni] = useState('');
     const [fechaFin, setFechaFin] = useState('');
@@ -72,7 +72,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lider del Proyecto:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                  onChange={(event)=>{setLider(event.target.value)}} value={lider}>
-                    <option>...</option>
+                    <option value={proyecto['lider']['id']}>...</option>
                     {
                         recursos.map( (recurso) => (
                             <option key={recurso['id']} value={recurso['id']}>{recurso['nombre']} {recurso['apellido']}</option>
@@ -85,6 +85,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado:</label>
                 <select className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="inputGroupSelect01"
                     onChange={(event)=>{setEstado(event.target.value)}} value={estado}>
+                    <option value={proyecto['estado']}>...</option>
                     <option value="NO_INICIADO">NO INICIADO</option>
                     <option value="EN_PROCESO">EN PROCESO</option>
                     <option value="FINALIZADO">FINALIZADO</option>                
@@ -105,8 +106,7 @@ const ModalEditarProyecto = ({isOpen, onClose, editarDatos,proyecto , children}:
             <div className='flex flex-row-reverse gap-10'>
                 <button 
                     onClick={()=> {
-                        // editarDatos({Id:id, Nombre: nombre, Descripcion: descripcion,Lider: lider,Estado: estado, FechaIni: fechaIni,FechaFin: fechaFin});
-                        editarDatos({estado: estado}, id);
+                        editarDatos({id: id, nombre: nombre, descripcion: descripcion, liderId: lider, estado: estado, fechaCreacion: fechaIni,fechaFinalizacion: fechaFin});
                         onClose()}}
                         className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
 	                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

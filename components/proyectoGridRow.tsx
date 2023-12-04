@@ -26,10 +26,10 @@ export default function ProyectoGridRow({ proyecto }: { proyecto: Proyecto }) {
         window.location.reload();
     } 
 
-    const editarDatos = (data:any, id:any) => {
+    const editarDatos = (data:any) => {
         setDatos(data);
-        fetch(`https://psa-backend-projectos.onrender.com/proyecto/${id}/estado`,{
-            method: 'PATCH',
+        fetch(`https://psa-backend-projectos.onrender.com/proyecto`,{
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {'Content-type' : 'Application/json'}
         });
