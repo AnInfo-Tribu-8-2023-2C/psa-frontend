@@ -27,7 +27,7 @@ const Ticket = () => {
 
   const fetchClients = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes"
+      "https://psa-backend-soporte.onrender.com/clientes"
     )
       .then((res) => {
         return res.json();
@@ -39,7 +39,7 @@ const Ticket = () => {
 
   const fetchUsuarios = () => {
     fetch(
-      "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos"
+      "https://psa-backend-projectos.onrender.com/recursos"
     )
       .then((res) => {
         return res.json();
