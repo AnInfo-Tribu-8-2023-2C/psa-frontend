@@ -11,6 +11,7 @@ export default function Clientes() {
     useEffect(() => {
         fetch("https://psa-backend-soporte.onrender.com/clientes")
             .then((res) => {
+                console.log(res);
                 return res.json()
             })
             .then((data) => {
